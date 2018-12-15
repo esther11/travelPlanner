@@ -18,7 +18,7 @@ import entity.Place;
 import entity.Place.PlaceBuilder;
 
 public class GoogleMapsSearchPlaceAPI {
-	private static final String API_KEY = "AIzaSyD-yrlTYpHLggUQc2GgbU06Ca0l3CMvTCc";
+	private static final String API_KEY = "Please find this in the group docs";
 	private static final String LATITUDE = "34.067727";
 	private static final String LONGITUDE = "-118.401488";
 	private static final String DEFAULT_TYPE = "Los Angeles Downtown";
