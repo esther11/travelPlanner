@@ -10,6 +10,7 @@
   function login() {
     let email = $("email").value;
     let password = $("password").value;
+    password = md5(username + md5(password));
 
     let url = "./login";
     let obj = {user_id: email, password: password};
@@ -22,7 +23,7 @@
     var parsedResponse = JSON.parse(response);
     if (parsedResponse.result === "SUCCESS") {
       // the returned response should be something like this:
-      // { result: "SUCCESS", ...}
+      // { result: "SUCCESS", user_id: ..., name: ...}
       // what the page should be like when user successfully login in?
     }
   }
