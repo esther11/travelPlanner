@@ -8,7 +8,7 @@ body {
 main {
   width: 30%;
   margin: auto auto;
-  height: 580px;
+  height: 600px;
   background-color: white;
   border-radius: 10px;
 }
@@ -44,4 +44,18 @@ button {
   width: 50%;
   margin: auto auto;
   margin-top: 20px;
+}
+
+#signup-error {
+  text-align: center;
+  background-color: #ffcccc;
+  width: 60%;
+  margin: auto auto;
+  padding: 10px;
+  color: #b30000;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
 }

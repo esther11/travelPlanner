@@ -10,7 +10,6 @@
   function login() {
     let email = $("email").value;
     let password = $("password").value;
-    password = md5(username + md5(password));
 
     let url = "./login";
     let obj = {user_id: email, password: password};
@@ -20,12 +19,23 @@
   }
 
   function successLogin(response) {
-    var parsedResponse = JSON.parse(response);
-    if (parsedResponse.result === "SUCCESS") {
+    response = JSON.parse(response);
+    if (response.result === "SUCCESS") {
       // the returned response should be something like this:
       // { result: "SUCCESS", user_id: ..., name: ...}
-      // what the page should be like when user successfully login in?
+      onSessionValid(response);
     }
+  }
+
+  function onSessionValid(response) {
+    let fullname = response.name;
+
+    $('welcome-msg').innerText = "Welcome, " + fullname + " You will be redirected to main page shortly";
+    setTimeout(redirect, 5000);
+  }
+
+  function redirect() {
+    window.location = "index.html";
   }
 
   function showLoginError() {
