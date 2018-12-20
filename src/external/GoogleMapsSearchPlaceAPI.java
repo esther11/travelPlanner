@@ -35,14 +35,16 @@ public class GoogleMapsSearchPlaceAPI {
 	private static final String PHOTOS = "photos";
 	private static final String PHOTOREFERENCE = "photo_reference";
 	private static final String PHOTOREQUEST = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
-	
+
 	// https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=PHOTOREFERENCE&key=YOUR_API_KEY
 	private Set<String> getPhotos(JSONArray array) throws JSONException {
 		Set<String> photos = new HashSet<>();
 		if (array != null && array.length() != 0) {
-			String photo = array.getJSONObject(0).getString(PHOTOREFERENCE);
-			String photoUrl = PHOTOREQUEST + photo + "&key=" + API_KEY;
-			photos.add(photoUrl);
+			for (int i = 0; i < array.length(); i++) {
+				String photo = array.getJSONObject(i).getString(PHOTOREFERENCE);
+				String photoUrl = PHOTOREQUEST + photo + "&key=" + API_KEY;
+				photos.add(photoUrl);
+			}
 		}
 		return photos;
 	}
@@ -181,5 +183,4 @@ public class GoogleMapsSearchPlaceAPI {
 		googleApi.queryAPI("beverly hills","");
 		// tmApi.queryAPI(37.38, -122.08);
 	}
-
 }
