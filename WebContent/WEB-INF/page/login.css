@@ -49,3 +49,13 @@ button {
   margin: auto auto;
   margin-top: 20px;
 }
+
+#login-error {
+  clear: both;
+  color: #990000;
+  padding-top: 10px;
+}
+
+#welcome-msg {
+  margin-left: 20px;
+}

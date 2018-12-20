@@ -4,21 +4,22 @@
   window.addEventListener("load", initialize);
 
   function initialize() {
-    $("login-btn").addEventListener("click", login);
+    $("signup-btn").addEventListener("click", signup);
   }
 
-  function login() {
+  function signup() {
     let email = $("email").value;
+    let name = $("username").value;
     let password = $("password").value;
 
-    let url = "./login";
-    let obj = {user_id: email, password: password};
+    let url = "./signup"; // needs to have a java servlet called Signup
+    let obj = {user_id: email, name: name, password: password};
     let req = JSON.stringify(obj);
 
-    ajax("POST", url, req, successLogin, showLoginError);
+    ajax("POST", url, req, successSignup, showSignupError);
   }
 
-  function successLogin(response) {
+  function successSignup(response) {
     response = JSON.parse(response);
     if (response.result === "SUCCESS") {
       // the returned response should be something like this:
@@ -28,18 +29,19 @@
   }
 
   function onSessionValid(response) {
-    let fullname = response.name;
+    let username = response.name;
 
-    $('welcome-msg').innerText = "Welcome, " + fullname + " You will be redirected to main page shortly";
+    $('welcome-msg').innerText = "Welcome, " + username + " You will be redirected to login page shortly";
     setTimeout(redirect, 5000);
   }
 
   function redirect() {
-    window.location = "index.html";
+    window.location = "login.html";
   }
 
-  function showLoginError() {
-    $("login-error").innerText = "Invalid email or password";
+  function showSignupError() {
+    $("signup-error").classList.remove("hidden");
+    $("signup-error").innerText = "Email or username already exists";
   }
 
   /**
@@ -57,26 +59,25 @@
 
     xhr.onload = function() {
       if (xhr.status === 200) {
-				callback(xhr.responseText);
-			} else if (xhr.status === 403) {
-				onSessionInvalid();
-			} else {
-				errorHandler();
-			}
+        callback(xhr.responseText);
+      } else if (xhr.status === 403) {
+        onSessionInvalid();
+      } else {
+        errorHandler();
+      }
     }
 
     xhr.onerror = function() {
       console.error("The request couldn't be completed.");
-			errorHandler();
+      errorHandler();
     }
 
     if (data === null) {
-			xhr.send();
-		} else {
-			xhr.setRequestHeader("Content-Type",
-					"application/json;charset=utf-8");
-			xhr.send(data);
-		}
+      xhr.send();
+    } else {
+      xhr.setRequestHeader("Content-Type",
+          "application/json;charset=utf-8");
+      xhr.send(data);
+    }
   }
-
 })();
