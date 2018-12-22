@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,34 +16,35 @@ import org.json.JSONObject;
 import db.DBConnection;
 import db.DBConnectionFactory;
 import entity.Place;
+import entity.Place.PlaceBuilder;
 import external.GoogleMapsSearchPlaceAPI;
 import rpc.RpcHelper;
 
 public class MySQLConnection implements DBConnection {
 
 	private Connection conn;
-
+	
 	public MySQLConnection() {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
-			conn = DriverManager.getConnection(MySQLDBUtil.URL);
-
+				Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
+				conn = DriverManager.getConnection(MySQLDBUtil.URL);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-
 	@Override
 	public void close() {
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+		// TODO Auto-generated method stub
+	   	 if (conn != null) {
+	   		 try {
+	   			 conn.close();
+	   		 } catch (Exception e) {
+	   			 e.printStackTrace();
+	   		 }
+	   	 }
+	}	
 	
 	@Override
 	public void setFavoritePlaces(String userId, List<String> placeIds) {
@@ -80,9 +82,7 @@ public class MySQLConnection implements DBConnection {
 			System.err.println("DB connection failed");
 			return;
 		}
-		
-		int largestOrder = 0;
-		List<String> placeList = new ArrayList<>();
+
 		try {
 			// delete rows first
 			String sql = "DELETE FROM favorites WHERE user_id = ? AND place_id = ?";
@@ -91,21 +91,7 @@ public class MySQLConnection implements DBConnection {
 			for (String placeId : placeIds) {
 				ps.setString(2, placeId);
 				ps.execute();
-			}
-			
-			// reset order after delete
-			sql = "SELECT * FROM favorites WHERE user_id = ? ORDER BY access_order ASC";					
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, userId);
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				placeList.add(rs.getString("place_id"));
-			}
-			
-			for (String placeId : placeList) {
-				updateOrder(userId, placeId, ++largestOrder);
-			}
+			}			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,27 +119,110 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public List<String> getFavoritePlaceIds(String userId) {
 		// TODO Auto-generated method stub
-		// the sequence in the list relies on order!
-		return null;
+		if(conn == null) {
+			System.err.println("DB connection failed");
+			return new ArrayList<>();
+		}
+		
+		List<String> favoritePlaces = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM favorites WHERE user_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				String placeId = rs.getString("place_id");
+				favoritePlaces.add(placeId);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return favoritePlaces;
 	}
 
 	@Override
 	public List<Place> getFavoritePlaces(String userId) {
 		// TODO Auto-generated method stub
-		// the sequence in the list relies on order!
-		return null;
+		if(conn == null) {
+			return new ArrayList<>();
+		}
+		
+		List<Place> favoritePlaces = new ArrayList<>();
+		List<String> placeIds = getFavoritePlaceIds(userId);
+		try {
+			String sql = "SELECT * FROM places WHERE place_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			for(String placeId : placeIds) {
+				ps.setString(1, placeId);
+				ResultSet rs = ps.executeQuery();
+				PlaceBuilder builder = new PlaceBuilder();
+				while(rs.next()) {
+					builder.setPlaceId(rs.getString("place_id"));
+					builder.setName(rs.getString("name"));
+					builder.setRating(rs.getDouble("Rating"));
+					builder.setAddress(rs.getString("address"));
+					builder.setIcon(rs.getString("icon"));
+					builder.setLat(rs.getDouble("latitude"));
+					builder.setLon(rs.getDouble("longitude"));
+					builder.setTypes(getTypes(rs.getString("place_id")));
+					builder.setPhotos(getPhotos(rs.getString("place_id")));
+					
+					favoritePlaces.add(builder.build());
+				}
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return favoritePlaces;
 	}
 
 	@Override
 	public Set<String> getPhotos(String placeId) {
 		// TODO Auto-generated method stub
-		return null;
+		if(conn == null) {
+			return null;
+		}
+		Set<String> photos = new HashSet<>();
+		try {
+			String sql = "SELECT photo from photos WHERE place_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, placeId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				String photo =rs.getString("photo");
+				photos.add(photo);
+			}
+			
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return photos;
 	}
 
 	@Override
 	public Set<String> getTypes(String placeId) {
 		// TODO Auto-generated method stub
-		return null;
+		if(conn == null) {
+			return null;
+		}
+		Set<String> types = new HashSet<>();
+		try {
+			String sql = "SELECT type from types WHERE place_id = ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, placeId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				String type =rs.getString("type");
+				types.add(type);
+			}
+			
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return types;
 	}
 
 	@Override
@@ -206,31 +275,105 @@ public class MySQLConnection implements DBConnection {
 
 	@Override
 	public String checkOrder(String userId, List<String> placeIds) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
-	// deletable
 	@Override
 	public List<Place> searchPlaces(String placeName, String placeType) {
 		// TODO Auto-generated method stub
-		return new ArrayList<Place>();
+		GoogleMapsSearchPlaceAPI googleMapsSearchPlaceAPI = new GoogleMapsSearchPlaceAPI();
+		List<Place> places = googleMapsSearchPlaceAPI.search(placeName, placeType);
+
+		for (Place place : places) {
+			savePlace(place);
+		}
+
+		return places;
 	}
 
 	@Override
 	public void savePlace(Place place) {
 		// TODO Auto-generated method stub
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return;
+		}
+
+		try {
+			String sql = "INSERT IGNORE INTO places VALUES (?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, place.getPlaceId());
+			ps.setString(2, place.getName());
+			ps.setDouble(3, place.getRating());
+			ps.setString(4, place.getAddress());
+			ps.setString(5, place.getIcon());
+			ps.setDouble(6, place.getLon());
+			ps.setDouble(7, place.getLat());
+			ps.execute();
+
+			sql = "INSERT IGNORE INTO types VALUES(?, ?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, place.getPlaceId());
+			for (String type : place.getTypes()) {
+				ps.setString(2, type);
+				ps.execute();
+			}
+
+			sql = "INSERT IGNORE INTO photos VALUES(?, ?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, place.getPlaceId());
+			for (String photo : place.getPhotos()) {
+				ps.setString(2, photo);
+				ps.execute();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public String getUsername(String userId) {
 		// TODO Auto-generated method stub
-		return null;
+		if (conn == null) {
+			return null;
+		}
+		
+		String name = null;
+		try {
+			String sql = "SELECT username FROM users WHERE user_id = ? ";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				name = rs.getString("username");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
 	}
 
 	@Override
 	public boolean verifyLogin(String userId, String password) {
 		// TODO Auto-generated method stub
+		if (conn == null) {
+			return false;
+		}
+		try {
+			String sql = "SELECT user_id FROM users WHERE user_id = ? AND password = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			statement.setString(2, password);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
 		return false;
 	}
 
