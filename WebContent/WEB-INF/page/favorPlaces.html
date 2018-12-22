@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Wish List">
+  <meta name="author" content="Peng">
+  <title>Interested Scenery Spot</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="favorPlaces.css">
+  <script src="favorPlaces.js"></script>
+  <script type="text/javascript"
+          src="http://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyD2A5VfFNowU3T1OZs65i3cPn8N8kEjYAA&sensor=SET_TO_TRUE_OR_FALSE">
+  </script>
+</head>
+<body onload="initialize()">
+    <header class="top-header">
+      <nav class="top-nav">
+        <a href="#">Home</a>
+        <a href="#">Contact</a>
+        <a href="#">About</a>
+      </nav>
+      <span id="welcome-msg"></span>
+      <a id="logout-link" href="logout">Logout</a>
+      <i id="avatar" class="avatar fa fa-user fa-2x"></i>
+    </header>
+
+  <div class="container">
+    <header>
+      <p>
+        <span id="logo" href="#">Angel City</span>
+      </p>
+    </header>
+    <aside id="panel" class="column">
+        <button class = "openbtn" onclick = "openNav()">三</button>
+        <button class = "closebtn" onclick="closeNav()">×</button>
+        <lable for ="name">
+          <p>Interested Scenery</p>
+        </lable>
+        <input type="text" placeholder="Favorite places to go..">
+        <button class = "submitBtn">Submit</button>
+    </aside>
+    <div class="column1">
+      <div id="map_canvas"></div>
+    </div>
+  </div>
+
+
+  <footer>
+    <p class="title">What We Do</p>
+    <p>"Help you find the best place around."</p>
+    <ul>
+      <li>
+        <p><i class="fa fa-map-o fa-2x"></i></p>
+        <p>Los Angeles, CA</p>
+      </li>
+      <li>
+        <p><i class="fa fa-envelope-o fa-2x"></i></p>
+        <p>xxx@xxx.com</p>
+      </li>
+      <li>
+        <p><i class="fa fa-phone fa-2x"></i></p>
+        <p>+1 xxx xxx xxx</p>
+      </li>
+    </ul>
+  </footer>
+
+</body>
+</html>
+
