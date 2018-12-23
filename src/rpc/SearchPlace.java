@@ -52,7 +52,7 @@ public class SearchPlace extends HttpServlet {
         DBConnection connection = DBConnectionFactory.getConnection();
         try {
         		List<Place> places = connection.searchPlaces(placeName, placeType);
-        		Set<String> favoritedPlaceIds = connection.getFavoritePlaceIds(userId);
+        		List<String> favoritedPlaceIds = connection.getFavoritePlaceIds(userId);
         		
         		JSONArray array = new JSONArray();
         		for (Place place : places) {
