@@ -335,7 +335,7 @@ public class MySQLConnection implements DBConnection {
 	}
 
 	@Override
-	public String getUsername(String userId) {
+	public String getFullname(String userId) {
 		// TODO Auto-generated method stub
 		if (conn == null) {
 			return null;
@@ -375,6 +375,43 @@ public class MySQLConnection implements DBConnection {
 			e.printStackTrace();
 		}	
 		return false;
+	}
+	
+	@Override
+	public boolean addUser(String userId, String username, String password) {
+		if (conn == null) {
+			return false;
+		}
+		try {
+			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?)";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			statement.setString(2, username);
+			statement.setString(3, password);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return true;
+	}
+	
+	@Override
+	public boolean verifyUserId(String userId) {
+		if (conn == null) {
+			return false;
+		}
+		try {
+			String sql = "SELECT user_id FROM users WHERE user_id = ?";
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, userId);
+			ResultSet rs = statement.executeQuery();
+			if (!rs.next()) { // if user doesn't exist, return true
+				return true;
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;	
 	}
 
 }
