@@ -109,13 +109,21 @@ public class PlaceFavorite extends HttpServlet {
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
-			JSONArray array = input.getJSONArray("favorite");
-			List<String> placeIds = new ArrayList<>();
-			for (int i = 0; i < array.length(); ++i) {
-				placeIds.add(array.getString(i));
+			
+			if (!input.isNull("favorite")) {
+				JSONArray array = input.getJSONArray("favorite");
+				List<String> placeIds = new ArrayList<>();
+				for (int i = 0; i < array.length(); ++i) {
+					placeIds.add(array.getString(i));
+				}
+				connection.setFavoritePlaces(userId, placeIds);
+				RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS for Adding into favorite list"));
+			} else if (!input.isNull("username")) {
+				String username = input.getString("username");
+				String password = input.getString("password");
+				connection.addUser(userId, username, password);
+				RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS for Adding a new user"));
 			}
-			connection.setFavoritePlaces(userId, placeIds);
-			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
