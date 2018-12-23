@@ -1,5 +1,5 @@
 package db.mysql;
 
-public class MySQLTableCreation {
+public class MySQLTableCreation {	
 
 }
