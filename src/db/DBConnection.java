@@ -1,5 +1,6 @@
 package db;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
@@ -26,13 +27,14 @@ public interface DBConnection {
 	 * @param placeIds
 	 */
 	public void unsetFavoritePlaces(String userId, List<String> placeIds);
-	
+
 	/**
 	 * Update the favorite places for a user.
 	 * 
 	 * @param userId
 	 * @param placeIds
 	 */
+	
 	public void updateFavoritePlaces(String userId, List<String> placeIds);
 
 	/**
@@ -41,6 +43,7 @@ public interface DBConnection {
 	 * @param userId
 	 * @return placeIds
 	 */
+	
 	public List<String> getFavoritePlaceIds(String userId);
 
 	/**
@@ -49,7 +52,7 @@ public interface DBConnection {
 	 * @param userId
 	 * @return set of places
 	 */
-	public List<Place> getFavoritePlaces(String userId);
+	public List<Place> getFavoritePlaces(String userId) throws SQLException;
 
 	/**
 	 * Gets photos based on place id
@@ -69,8 +72,7 @@ public interface DBConnection {
 	public Set<String> getTypes(String placeId);
 	
 	/**
-	 * Update the order of this user-place primary key. (Important function in Order Update)
-	 * If it exist, just update the order; if it doesn't exist, create the new key and add an order
+	 * Update the order of this user's favorite list
 	 * @param userId
 	 * @param placeId
 	 * @param order
@@ -117,7 +119,7 @@ public interface DBConnection {
 	 * @param userId
 	 * @return full name of the user
 	 */
-	public String getFullname(String userId);
+	public String getUsername(String userId);
 
 	/**
 	 * Return whether the credential is correct. (This is not needed for main
@@ -128,23 +130,17 @@ public interface DBConnection {
 	 * @return boolean
 	 */
 	public boolean verifyLogin(String userId, String password);
-	
 	/**
-	 * Verify if a userId is already in the database. return False if exist, return True if not. 
-	 * 
+	 * adds one user into database
 	 * @param userId
-	 * @return boolean
+	 * @param password
+	 * @param userName
+	 */
+	public void addUser (String userId, String password, String userName);
+	/**
+	 * Return true, if the given userId does not exist in the database.
+	 * @param userId
+	 * @return
 	 */
 	public boolean verifyUserId(String userId);
-	
-	/**
-	 * DB function for sign-up, add new User into Database. Return false if failed, return true if success
-	 * 
-	 * @param userId
-	 * @param username
-	 * @param password
-	 * @return boolean
-	 */
-	public boolean addUser(String userId, String username, String password);	
-
 }
