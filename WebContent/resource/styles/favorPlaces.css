@@ -80,7 +80,7 @@ ul {
 .container>header {
   align-items: center;
   background:
-          url("Image/Image_20181221061619.png")
+          url("../images/Image_20181221061619.png")
           no-repeat 50% 50%;
   background-size: 100%;
   display: flex;
