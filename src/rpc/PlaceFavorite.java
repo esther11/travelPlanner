@@ -57,7 +57,7 @@ public class PlaceFavorite extends HttpServlet {
 			}
 			
 			RpcHelper.writeJsonArray(response, array);
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			conn.close();
