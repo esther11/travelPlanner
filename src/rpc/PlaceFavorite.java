@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import db.DBConnection;
@@ -43,10 +42,10 @@ public class PlaceFavorite extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		String userId = request.getParameter("user_id");
 		JSONArray array = new JSONArray();
-		
+
 		DBConnection conn = DBConnectionFactory.getConnection();
 		try {
 			List<Place> places = conn.getFavoritePlaces(userId);
@@ -55,7 +54,7 @@ public class PlaceFavorite extends HttpServlet {
 				obj.append("favorite", true);
 				array.put(obj);
 			}
-			
+
 			RpcHelper.writeJsonArray(response, array);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,21 +108,14 @@ public class PlaceFavorite extends HttpServlet {
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
-			
-			if (!input.isNull("favorite")) {
-				JSONArray array = input.getJSONArray("favorite");
-				List<String> placeIds = new ArrayList<>();
-				for (int i = 0; i < array.length(); ++i) {
-					placeIds.add(array.getString(i));
-				}
-				connection.setFavoritePlaces(userId, placeIds);
-				RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS for Adding into favorite list"));
-			} else if (!input.isNull("username")) {
-				String username = input.getString("username");
-				String password = input.getString("password");
-				connection.addUser(userId, username, password);
-				RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS for Adding a new user"));
+
+			JSONArray array = input.getJSONArray("favorite");
+			List<String> placeIds = new ArrayList<>();
+			for (int i = 0; i < array.length(); ++i) {
+				placeIds.add(array.getString(i));
 			}
+			connection.setFavoritePlaces(userId, placeIds);
+			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS for Adding into favorite list"));
 
 		} catch (Exception e) {
 			e.printStackTrace();
