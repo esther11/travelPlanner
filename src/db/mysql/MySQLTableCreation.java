@@ -1,5 +1,8 @@
 package db.mysql;
 
+<<<<<<< HEAD
+public class MySQLTableCreation {	
+=======
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -94,5 +97,6 @@ public class MySQLTableCreation {
 			e.printStackTrace();
 		}
 	}
+>>>>>>> 638d060800cf1592174219860a1f3d3ac3bfbbd4
 
 }
