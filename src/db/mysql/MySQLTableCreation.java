@@ -1,12 +1,8 @@
 package db.mysql;
 
-<<<<<<< HEAD
-public class MySQLTableCreation {	
-=======
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.sql.SQLException;
 
 public class MySQLTableCreation {
 	// Run this as Java application to reset db schema.
@@ -80,7 +76,7 @@ public class MySQLTableCreation {
 			sql = "CREATE TABLE favorites ("
 					+ "user_id VARCHAR(255) NOT NULL,"
 					+ "place_id VARCHAR(255) NOT NULL,"
-					+ "access_order FLOAT,"
+					+ "access_order INT,"
 					+ "PRIMARY KEY (user_id, place_id),"
 					+ "FOREIGN KEY (user_id) REFERENCES users(user_id),"
 					+ "FOREIGN KEY (place_id) REFERENCES places(place_id)"
@@ -97,6 +93,5 @@ public class MySQLTableCreation {
 			e.printStackTrace();
 		}
 	}
->>>>>>> 638d060800cf1592174219860a1f3d3ac3bfbbd4
 
 }
