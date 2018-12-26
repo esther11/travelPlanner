@@ -39,7 +39,7 @@ public class MySQLConnection implements DBConnection {
 	   			 e.printStackTrace();
 	   		 }
 	   	 }
-	}
+	}	
 	
 	@Override
 	public void setFavoritePlaces(String userId, List<String> placeIds) {
@@ -308,21 +308,26 @@ public class MySQLConnection implements DBConnection {
 			ps.setDouble(7, place.getLat());
 			ps.execute();
 
-			sql = "INSERT IGNORE INTO types VALUES(?, ?)";
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, place.getPlaceId());
-			for (String type : place.getTypes()) {
-				ps.setString(2, type);
-				ps.execute();
+			if (place.getTypes() != null) {
+				sql = "INSERT IGNORE INTO types VALUES(?, ?)";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, place.getPlaceId());
+				for (String type : place.getTypes()) {
+					ps.setString(2, type);
+					ps.execute();
+				}	
+			}
+			
+			if (place.getPhotos() != null) {
+				sql = "INSERT IGNORE INTO photos VALUES(?, ?)";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, place.getPlaceId());
+				for (String photo : place.getPhotos()) {
+					ps.setString(2, photo);
+					ps.execute();
+				}
 			}
 
-			sql = "INSERT IGNORE INTO photos VALUES(?, ?)";
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, place.getPlaceId());
-			for (String photo : place.getPhotos()) {
-				ps.setString(2, photo);
-				ps.execute();
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
