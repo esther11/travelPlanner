@@ -19,7 +19,6 @@
   }
 
   function successLogin(response) {
-	console.log(response);
     response = JSON.parse(response);
     if (response.result === "SUCCESS") {
     	$('welcome-msg').innerText = "Welcome!";
