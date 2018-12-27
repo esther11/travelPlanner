@@ -145,6 +145,6 @@ public interface DBConnection {
 	 * @param password
 	 * @return boolean
 	 */
-	public boolean addUser(String userId, String username, String password);	
+	public boolean addUser(String userId, String password, String username);	
 
 }
