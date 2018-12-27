@@ -10,15 +10,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import db.DBConnection;
-import db.DBConnectionFactory;
 import entity.Place;
 import entity.Place.PlaceBuilder;
 import external.GoogleMapsSearchPlaceAPI;
-import rpc.RpcHelper;
 
 public class MySQLConnection implements DBConnection {
 
@@ -313,21 +308,26 @@ public class MySQLConnection implements DBConnection {
 			ps.setDouble(7, place.getLat());
 			ps.execute();
 
-			sql = "INSERT IGNORE INTO types VALUES(?, ?)";
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, place.getPlaceId());
-			for (String type : place.getTypes()) {
-				ps.setString(2, type);
-				ps.execute();
+			if (place.getTypes() != null) {
+				sql = "INSERT IGNORE INTO types VALUES(?, ?)";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, place.getPlaceId());
+				for (String type : place.getTypes()) {
+					ps.setString(2, type);
+					ps.execute();
+				}	
+			}
+			
+			if (place.getPhotos() != null) {
+				sql = "INSERT IGNORE INTO photos VALUES(?, ?)";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, place.getPlaceId());
+				for (String photo : place.getPhotos()) {
+					ps.setString(2, photo);
+					ps.execute();
+				}
 			}
 
-			sql = "INSERT IGNORE INTO photos VALUES(?, ?)";
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, place.getPlaceId());
-			for (String photo : place.getPhotos()) {
-				ps.setString(2, photo);
-				ps.execute();
-			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -378,7 +378,7 @@ public class MySQLConnection implements DBConnection {
 	}
 	
 	@Override
-	public boolean addUser(String userId, String username, String password) {
+	public boolean addUser(String userId, String password, String username) {
 		if (conn == null) {
 			return false;
 		}
@@ -386,8 +386,8 @@ public class MySQLConnection implements DBConnection {
 			String sql = "INSERT IGNORE INTO users VALUES (?, ?, ?)";
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, userId);
-			statement.setString(2, username);
-			statement.setString(3, password);
+			statement.setString(2, password);
+			statement.setString(3, username);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
