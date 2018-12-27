@@ -3,7 +3,6 @@ package db.mysql;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.sql.SQLException;
 
 public class MySQLTableCreation {
 	// Run this as Java application to reset db schema.
@@ -13,28 +12,28 @@ public class MySQLTableCreation {
 			System.out.println("Connecting to " + MySQLDBUtil.URL);
 			Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
 			Connection conn = DriverManager.getConnection(MySQLDBUtil.URL);
-			
+
 			if (conn == null) {
 				return;
 			}
-			
-			// Step 2 Drop tables in case they exist.	
+
+			// Step 2 Drop tables in case they exist.
 			Statement stmt = conn.createStatement();
 
 			String sql = "DROP TABLE IF EXISTS favorites";
 			stmt.executeUpdate(sql);
-			
+
 			sql = "DROP TABLE IF EXISTS types";
 			stmt.executeUpdate(sql);
-			
+
 			sql = "DROP TABLE IF EXISTS photos";
 			stmt.executeUpdate(sql);
-			
+
 			sql = "DROP TABLE IF EXISTS places";
 			stmt.executeUpdate(sql);
-			
+
 			sql = "DROP TABLE IF EXISTS users";
-			stmt.executeUpdate(sql);			
+			stmt.executeUpdate(sql);
 
 			// Step 3 Create new tables
 			sql = "CREATE TABLE places ("
@@ -49,7 +48,7 @@ public class MySQLTableCreation {
 					+ "PRIMARY KEY (place_id)"
 					+ ")";
 			stmt.executeUpdate(sql);
-			
+
 			sql = "CREATE TABLE photos ("
 					+ "place_id VARCHAR(255) NOT NULL,"
 					+ "photo VARCHAR(255),"
@@ -57,7 +56,7 @@ public class MySQLTableCreation {
 					+ "FOREIGN KEY (place_id) REFERENCES places(place_id)"
 					+ ")";
 			stmt.executeUpdate(sql);
-			
+
 			sql = "CREATE TABLE types ("
 					+ "place_id VARCHAR(255) NOT NULL,"
 					+ "type VARCHAR(255),"
@@ -72,12 +71,12 @@ public class MySQLTableCreation {
 					+ "username VARCHAR(255),"
 					+ "PRIMARY KEY (user_id)"
 					+ ")";
-			stmt.executeUpdate(sql);			
-			
+			stmt.executeUpdate(sql);
+
 			sql = "CREATE TABLE favorites ("
 					+ "user_id VARCHAR(255) NOT NULL,"
 					+ "place_id VARCHAR(255) NOT NULL,"
-					+ "access_order FLOAT,"
+					+ "access_order INT,"
 					+ "PRIMARY KEY (user_id, place_id),"
 					+ "FOREIGN KEY (user_id) REFERENCES users(user_id),"
 					+ "FOREIGN KEY (place_id) REFERENCES places(place_id)"
@@ -87,11 +86,12 @@ public class MySQLTableCreation {
 			// Step 4: insert fake user 1111/3229c1097c00d497a0fd282d586be050
 			// sql = "INSERT INTO users VALUES ('1111', '3229c1097c00d497a0fd282d586be050', 'JohnSmith')";
 			// stmt.executeUpdate(sql);
-			
+
 			// System.out.println("Import done successfully");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 }
