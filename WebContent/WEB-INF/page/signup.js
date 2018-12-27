@@ -22,16 +22,13 @@
   function successSignup(response) {
     response = JSON.parse(response);
     if (response.result === "SUCCESS") {
-      // the returned response should be something like this:
-      // { result: "SUCCESS", user_id: ..., name: ...}
       onSessionValid(response);
     }
   }
 
   function onSessionValid(response) {
-    let username = response.name;
-
-    $('welcome-msg').innerText = "Welcome, " + username + " You will be redirected to login page shortly";
+    $('welcome-msg').innerText = "Welcome, !";
+    $("welcome-msg").classList.remove("hidden");
     setTimeout(redirect, 5000);
   }
 
@@ -40,8 +37,8 @@
   }
 
   function showSignupError() {
+	$("signup-error").innerText = "Email or username already exists";
     $("signup-error").classList.remove("hidden");
-    $("signup-error").innerText = "Email or username already exists";
   }
 
   /**
@@ -60,8 +57,6 @@
     xhr.onload = function() {
       if (xhr.status === 200) {
         callback(xhr.responseText);
-      } else if (xhr.status === 403) {
-        onSessionInvalid();
       } else {
         errorHandler();
       }

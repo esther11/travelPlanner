@@ -1,16 +1,16 @@
 body {
   font-family:  sans-serif;
-  background-color: gray;
+  background-color: #ff0066;
   display: flex;
-  align-items: center;
+  align-items: center; 
 }
 
 main {
-  width: 30%;
+  width: 450px;
   margin: auto auto;
-  height: 600px;
+  height: 450px;
+  border-radius: 50%;
   background-color: white;
-  border-radius: 10px;
 }
 
 h2, h4, button {
@@ -35,15 +35,13 @@ input[type=text], input[type=password] {
 }
 
 button {
-  background-color: #4CAF50;
-  display: block;
   color: white;
-  padding: 10px;
-  border: none;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
   cursor: pointer;
-  width: 50%;
-  margin: auto auto;
-  margin-top: 20px;
+  background-color: #00cc99;
+  float: right;
 }
 
 #signup-error {
@@ -56,6 +54,29 @@ button {
   border-radius: 10px;
 }
 
+#welcome-msg {
+  text-align: center;
+  background-color: #b3ffcc;
+  width: 60%;
+  margin: auto auto;
+  padding: 10px;
+  color: #009933;
+  border-radius: 10px;
+}
+
+
 .hidden {
   display: none;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -225px;
+  margin-left: -225px;
+}
+
+.container {
+	margin-top: 15px;
 }

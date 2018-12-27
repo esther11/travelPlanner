@@ -2,9 +2,14 @@ package rpc;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONObject;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 
 import db.DBConnection;
 import db.DBConnectionFactory;
@@ -45,6 +50,18 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/** testing
+		JSONObject obj = new JSONObject();
+		try {
+			JSONObject input = RpcHelper.readJsonObject(request);
+			String email = input.getString("email");
+			obj.put("result", "SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		RpcHelper.writeJsonObject(response, obj);
+		**/
+		
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);

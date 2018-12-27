@@ -8,27 +8,24 @@
   </head>
   <body>
     <header></header>
-    <main>
+    <main class="centered">
       <h2>Sign up</h2>
+      <div class="imgcontainer">
+        <img src="lock.jpeg" alt="lock" class="avatar">
+      </div>
+      <p id="signup-error" class="hidden"></p>
+      <p id="welcome-msg" class="hidden"></p>
       <form>
-        <div class="imgcontainer">
-          <img src="images/lock.jpeg" alt="Avatar" class="avatar">
-        </div>
-        <p id="signup-error" class="hidden"></p>
         <div class="container">
-          <h4>Email</h4>
           <input id="email" type="text" placeholder="Enter Email" name="email" required></input>
 
-          <h4>Username</h4>
           <input id="username" type="text" placeholder="Enter Username" name="uname" required></input>
 
-          <h4>Password</h4>
           <input id="password" type="password" placeholder="Enter Password" name="psw" required></input>
-
-          <button id="signup-btn">Signup</button>
-          <span><a href="login.html">Already a user?</a></span>
         </div>
       </form>
+      <button id="signup-btn">Signup</button>
+      <span><a href="login.html">Already a user?</a></span>
     </main>
     <footer></footer>
   </body>

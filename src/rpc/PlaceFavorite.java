@@ -1,6 +1,7 @@
 package rpc;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,8 @@ public class PlaceFavorite extends HttpServlet {
 		
 		DBConnection conn = DBConnectionFactory.getConnection();
 		try {
-			List<Place> places = conn.getFavoritePlaces(userId);
+			List<Place> places;
+			places = conn.getFavoritePlaces(userId);
 			for (Place place : places) {
 				JSONObject obj = place.toJSONObject();
 				obj.append("favorite", true);
