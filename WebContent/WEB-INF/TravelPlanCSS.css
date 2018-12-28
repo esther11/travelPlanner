@@ -1,0 +1,89 @@
+.avatar {
+	background: #FFFFFF;
+	border-radius: 50%;
+	color: #1F1F1F;
+	height: 40px;
+	margin-right: 20px;
+	padding-left: 9px;
+	padding-top: 5px;
+	width: 40px;
+}
+.top-header {
+    align-items: center;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 10px #333333;
+    display: flex;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+.top-nav {
+	flex: 1;
+}
+
+.top-nav a {
+    color: #1F1F1F;
+    font-weight: 800;
+    margin-left: 35px;
+    text-decoration: none;
+    font-size: 110%;
+}
+.top-nav a:hover {
+	background: rgba(255, 255, 255, 0.8);
+	color:#FFCC40;
+}
+
+
+.top-nav b {
+    color: #1F1F1F;
+    font-weight: 800;
+    margin-right: 35px;
+    text-decoration: none;
+    float: right;
+    font-size: 110%;
+}
+.top-nav b:hover {
+	background: rgba(255, 255, 255, 0.8);
+	color:#FFCC40;
+}
+#welcome-msg {
+	border-right: 1px solid #FFFFFF;
+	padding-right: 10px;
+}
+.LosAngeles {
+    position: relative;
+    clip-path: inset(0px 0px 390px 0px);
+	z-index：-1;
+	margin-bottom: -5px;
+}
+.container {
+    text-align: center; 
+	font-size: 3em;
+	font-family: 'charm';
+}
+
+footer {
+	background: #FFFFFF;
+	box-shadow: 5px 2px 10px #333333;
+	font-size: 1.8em;
+	height: 200px;
+	position: relative;
+}
+
+footer p {
+	text-align: center;
+}
+
+
+footer ul {
+	align-items: center;
+	display: flex;
+	padding: 20px;
+	font-family: actor;
+}
+
+footer ul li {
+	flex: 1;
+}
