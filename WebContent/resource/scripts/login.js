@@ -21,25 +21,19 @@
   function successLogin(response) {
     response = JSON.parse(response);
     if (response.result === "SUCCESS") {
-      // the returned response should be something like this:
-      // { result: "SUCCESS", user_id: ..., name: ...}
-      onSessionValid(response);
+    	$('welcome-msg').innerText = "Welcome!";
+    	$("welcome-msg").classList.remove("hidden");
+        setTimeout(redirect, 5000);
     }
   }
 
-  function onSessionValid(response) {
-    let fullname = response.name;
-
-    $('welcome-msg').innerText = "Welcome, " + fullname + " You will be redirected to main page shortly";
-    setTimeout(redirect, 5000);
-  }
-
   function redirect() {
-    window.location = "index.html";
+    window.location = "favorPlaces.html";
   }
 
   function showLoginError() {
     $("login-error").innerText = "Invalid email or password";
+    $("login-error").classList.remove("hidden");
   }
 
   /**
@@ -54,29 +48,28 @@
   function ajax(method, url, data, callback, errorHandler) {
     var xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
-
+    
+   
     xhr.onload = function() {
-      if (xhr.status === 200) {
-				callback(xhr.responseText);
-			} else if (xhr.status === 403) {
-				onSessionInvalid();
-			} else {
-				errorHandler();
-			}
+      if (xhr.readyState === 4 && xhr.status === 200) {
+    	  callback(xhr.responseText);
+	  } else {
+		  errorHandler();
+	  }
     }
 
     xhr.onerror = function() {
       console.error("The request couldn't be completed.");
-			errorHandler();
+	  errorHandler();
     }
-
+  
     if (data === null) {
-			xhr.send();
-		} else {
-			xhr.setRequestHeader("Content-Type",
-					"application/json;charset=utf-8");
-			xhr.send(data);
-		}
+    	xhr.send();
+	} else {
+		xhr.setRequestHeader("Content-Type",
+					         "application/json;charset=utf-8");
+		xhr.send(data);
+	}
   }
 
 })();

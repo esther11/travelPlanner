@@ -39,6 +39,19 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/** testing
+		JSONObject obj = new JSONObject();
+		try {
+			JSONObject input = RpcHelper.readJsonObject(request);
+			String userId = input.getString("user_id");
+			String password = input.getString("password");
+			obj.put("result", "SUCCESS").put("user_id", userId).put("password", password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		RpcHelper.writeJsonObject(response, obj);
+		**/
+
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
@@ -47,7 +60,7 @@ public class Login extends HttpServlet {
 			
 			JSONObject obj = new JSONObject();
 			if (connection.verifyLogin(userId, password)) {
-				obj.put("result", "SUCCESS").put("user_id", userId).put("name", connection.getFullname(userId));	
+				obj.put("result", "SUCCESS").put("user_id", userId);	
 			} else {
 				response.setStatus(401);
 				obj.put("result", "User Doesn't Exist");

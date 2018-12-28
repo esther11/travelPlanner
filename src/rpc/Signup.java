@@ -50,6 +50,18 @@ public class Signup extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/** testing
+		JSONObject obj = new JSONObject();
+		try {
+			JSONObject input = RpcHelper.readJsonObject(request);
+			String email = input.getString("email");
+			obj.put("result", "SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		RpcHelper.writeJsonObject(response, obj);
+		**/
+		
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
