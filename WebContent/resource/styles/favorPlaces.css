@@ -51,7 +51,7 @@ ul {
 }
 
 .top-nav a {
-  color: #9400d3;
+  color: #333333;
   font-weight: 600;
   margin-left: 20px;
   text-decoration: none;
@@ -141,13 +141,15 @@ input[type=text] {
 
 /* column section*/
 .column {
-  background: #4285F4 ;
+  background: #333333;
   position: absolute;
   z-index: 1;
-  width: 250px;
+  width: 300px;
   margin-top: 56px;
   left: 9px;
   margin-left: 0;
+  padding-right: 15px;
+  padding-bottom: 20px;
   display: block;
   -moz-transition: margin-left 2s;
   transition: margin-left 2s;
@@ -157,10 +159,9 @@ input[type=text] {
   text-align: center;
   position: relative;
   top: 7px;
-  color: #fff;
+  color: #ffd700;
   font-size: 20px;
   margin: 0px;
-
 }
 
 .column .closebtn {
@@ -168,9 +169,9 @@ input[type=text] {
   top: 1px;
   right: 1px;
   font-size: 20px;
-  color: #fff;
+  color: #ffd700;
   z-index: 1;
-  background-color: #4285F4;
+  background-color: #333333;
   border: 0;
   cursor: pointer;
 }
@@ -178,12 +179,12 @@ input[type=text] {
 .column .openbtn {
   position: absolute;
   top: 35%;
-  left: 250px;
+  left: 300px;
   height: 25px;
   border: 0;
   border-left: 1px solid rgba(23, 32, 43, 0.2);
-  background: #4285F4;
-  color: #fff;
+  background: #333333;
+  color: #ffd700;
   cursor: pointer;
 }
 
@@ -211,7 +212,46 @@ input[type=text] {
   height:700px;
 }
 
-/* ÏìÓ¦Ê½²¼¾Ö */
+/**
+ * place panel
+ */
+ 
+.place {
+	background: #ffd700;
+	height: 60px;
+	margin-top: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+	display: flex;
+	align-items: center;	
+}
+
+.place img {
+	width: 50px;
+	height: 50px;
+}
+
+.place div {
+	height: 100%;
+}
+
+.place p {
+	font-size: 12px;
+	color: #000000;
+	text-align: left;
+}
+
+.place-title {
+	font-weight: bold;
+	font-size: 15px;
+	flex: 0.5;
+}
+
+.place-address {
+	flex: 0.5;
+}
+
+/* ï¿½ï¿½Ó¦Ê½ï¿½ï¿½ï¿½ï¿½ */
 @media screen and (max-width: 600px) {
   .column, input[type=submit] {
     width: 100%;
@@ -224,7 +264,7 @@ input[type=text] {
  */
 footer {
   background: #ffd700;
-  color: #9400d3;
+  color: #000000;
   font-weight: 600;
   font-size: 0.8em;
   height: 200px;

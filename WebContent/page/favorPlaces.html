@@ -28,13 +28,11 @@
       </p>
     </header>
     <aside id="panel" class="column">
-        <button class = "openbtn" onclick = "openNav()">三</button>
-        <button class = "closebtn" onclick="closeNav()">×</button>
-        <lable for ="name">
-          <p>Interested Scenery</p>
-        </lable>
-        <input type="text" placeholder="Favorite places to go..">
-        <button class = "submitBtn">Submit</button>
+        <button id="panel-openbtn" class="openbtn">三</button>
+        <button id="panel-closebtn" class="closebtn">×</button>
+        <p>Interested Scenery</p>
+        <ul id="place-list"></ul>
+        <!-- <button class = "submitBtn">Submit</button> -->
     </aside>
     <div class="column1">
       <div id="map_canvas"></div>
@@ -62,9 +60,7 @@
   </footer>
 
 <script src="../resource/scripts/favorPlaces.js"></script>
-<script type="text/javascript"
-        src="http://maps.googleapis.com/maps/api/js?sensor=false&key=YOUR_APIKEY&sensor=SET_TO_TRUE_OR_FALSE">
-</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 </body>
   
 </html>
