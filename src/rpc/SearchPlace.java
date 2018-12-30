@@ -34,15 +34,21 @@ public class SearchPlace extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	// doGet: search place list from Google Maps API, return it to FrontEnd
+	// request: http request parameters
+	// response: JSONArray with List<Place> included
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// allow access only if session exists
+		// comment this feature for now in order to test search Servlet
+		/*
 		HttpSession session = request.getSession(false);
 		if (session == null) {
 			response.setStatus(403);
 			return;
 		}
-		// optional from session
+		*/
+		// optional from session, if session exists we could get user_id from session instead of request body
 		// String userId = session.getAttribute("user_id").toString(); 
 		String userId = request.getParameter("user_id");
 		String placeName = request.getParameter("placeName");
@@ -56,10 +62,12 @@ public class SearchPlace extends HttpServlet {
         		JSONArray array = new JSONArray();
         		for (Place place : places) {
         			JSONObject obj = place.toJSONObject();
-    				obj.put("favorite", favoritedPlaceIds.contains(place.getPlaceId()));
+        			// comment below, "favorite" is boolean in PlaceFavorite.java
+    				// obj.put("favorite", favoritedPlaceIds.contains(place.getPlaceId()));
     				array.put(obj);
         		}
         		RpcHelper.writeJsonArray(response, array);
+        		
 
         } catch (Exception e) {
         		e.printStackTrace();
