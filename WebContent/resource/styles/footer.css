@@ -1,0 +1,47 @@
+body {
+  background: rgba(0,0,0,0);;
+  color: #333333;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  font-size: 0.9em;
+}
+
+
+
+
+ul {
+  list-style: none;
+}
+
+/**
+ * footer section
+ */
+footer {
+  background: #ffd700;
+  color: #000000;
+  font-weight: 600;
+  font-size: 0.8em;
+  height: 200px;
+  margin-top: 1px;
+  position: absolute;
+  width: 100%;
+}
+
+footer p {
+  text-align: center;
+}
+
+footer p.title {
+  font-size: 1.2em;
+  padding: 15px;
+}
+
+footer ul {
+  align-items: center;
+  margin-right: 40px;
+  display: flex;
+}
+
+footer ul li {
+  flex: 1;
+}

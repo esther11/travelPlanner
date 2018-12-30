@@ -10,58 +10,27 @@
   <link rel="stylesheet" href="../resource/styles/favorPlaces.css">
 </head>
 <body onload="initialize()">
-    <header class="top-header">
-      <nav class="top-nav">
-        <a href="#">Home</a>
-        <a href="#">Contact</a>
-        <a href="#">About</a>
-      </nav>
-      <span id="welcome-msg"></span>
-      <a id="logout-link" href="logout">Logout</a>
-      <i id="avatar" class="avatar fa fa-user fa-2x"></i>
-    </header>
-
-  <div class="container">
-    <header>
-      <p>
-        <span id="logo" href="#">Los Angeles</span>
-      </p>
-    </header>
-    <aside id="panel" class="column">
-        <button id="panel-openbtn" class="openbtn">三</button>
-        <button id="panel-closebtn" class="closebtn">×</button>
-        <p>Interested Scenery</p>
-        <ul id="place-list"></ul>
-        <!-- <button class = "submitBtn">Submit</button> -->
-    </aside>
-    <div class="column1">
-      <div id="map_canvas"></div>
-    </div>
-  </div>
-
-
-  <footer>
-    <p class="title">What We Do</p>
-    <p>"Help you find the best place around."</p>
-    <ul>
-      <li>
-        <p><i class="fa fa-map-o fa-2x"></i></p>
-        <p>Los Angeles, CA</p>
-      </li>
-      <li>
-        <p><i class="fa fa-envelope-o fa-2x"></i></p>
-        <p>xxx@xxx.com</p>
-      </li>
-      <li>
-        <p><i class="fa fa-phone fa-2x"></i></p>
-        <p>+1 xxx xxx xxx</p>
-      </li>
-    </ul>
-  </footer>
-
-<script src="../resource/scripts/favorPlaces.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+	<div id="includeheader"></div>
+	  <div class="container">
+	    <header>
+	      <p>
+	        <span id="logo" href="#">Los Angeles</span>
+	      </p>
+	    </header>
+	    <aside id="panel" class="column">
+	        <button id="panel-openbtn" class="openbtn">三</button>
+	        <button id="panel-closebtn" class="closebtn">×</button>
+	        <p>Interested Scenery</p>
+	        <ul id="place-list"></ul>
+	        <!-- <button class = "submitBtn">Submit</button> -->
+	    </aside>
+	    <div class="column1">
+	      <div id="map_canvas"></div>
+	    </div>
+	  </div>
+	<div id="includefooter"></div>
+	<script src="../resource/scripts/favorPlaces.js"></script>
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
 </body>
-  
 </html>
 
