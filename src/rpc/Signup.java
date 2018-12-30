@@ -45,34 +45,45 @@ public class Signup extends HttpServlet {
 		doGet(request, response);
 	}
 
-	
+
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** testing
+		/** testing case 1
 		JSONObject obj = new JSONObject();
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
-			String email = input.getString("email");
-			obj.put("result", "SUCCESS");
+			String userId = input.getString("user_id");
+			obj.put("result", "SUCCESS").put("email", userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		RpcHelper.writeJsonObject(response, obj);
 		**/
-		
+
+		/** testing case 2
+		 SONObject obj = new JSONObject();
+		try {
+			response.setStatus(401);
+		    obj.put("result", "Email Already Exists");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		RpcHelper.writeJsonObject(response, obj);
+		*/
+
 		DBConnection connection = DBConnectionFactory.getConnection();
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
-			String email = input.getString("email");
+			String userId = input.getString("user_id");
 			String name = input.getString("name");
 			String password = input.getString("password");
 
 			JSONObject obj = new JSONObject();
-			if (connection.verifyUserId(email)) {
-				connection.addUser(email, password, name);
-				obj.put("result", "SUCCESS").put("user_id", email).put("name", name);
+			if (connection.verifyUserId(userId)) {
+				connection.addUser(userId, password, name);
+				obj.put("result", "SUCCESS").put("email", userId).put("name", name);
 			} else {
 				response.setStatus(401);
 				obj.put("result", "Email Already Exists");

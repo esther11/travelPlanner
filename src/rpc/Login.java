@@ -21,7 +21,7 @@ public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
-     * Default constructor. 
+     * Default constructor.
      */
     public Login() {
         // TODO Auto-generated constructor stub
@@ -39,16 +39,30 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/** testing
+		/** testing case 1
 		JSONObject obj = new JSONObject();
 		try {
+
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
 			String password = input.getString("password");
 			obj.put("result", "SUCCESS").put("user_id", userId).put("password", password);
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
+		RpcHelper.writeJsonObject(response, obj);
+        **/
+
+		/**testing case 2
+		JSONObject obj = new JSONObject();
+		try {
+			response.setStatus(401);
+		    obj.put("result", "User Doesn't Exist");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		RpcHelper.writeJsonObject(response, obj);
 		**/
 
@@ -57,20 +71,19 @@ public class Login extends HttpServlet {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
 			String password = input.getString("password");
-			
+
 			JSONObject obj = new JSONObject();
 			if (connection.verifyLogin(userId, password)) {
-				obj.put("result", "SUCCESS").put("user_id", userId);	
+				obj.put("result", "SUCCESS").put("user_id", userId);
 			} else {
 				response.setStatus(401);
 				obj.put("result", "User Doesn't Exist");
 			}
-			RpcHelper.writeJsonObject(response, obj);	
+			RpcHelper.writeJsonObject(response, obj);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			connection.close();
 		}
 	}
-
 }
