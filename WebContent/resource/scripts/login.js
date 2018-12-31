@@ -28,7 +28,7 @@
   }
 
   function redirect() {
-    window.location = "favorPlaces.html";
+    window.location = "searchPage.html";
   }
 
   function showLoginError() {

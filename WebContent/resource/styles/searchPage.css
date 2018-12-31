@@ -1,53 +1,9 @@
 body {
-    	font-family: 'Charm';font-size: 18px;
-	}
-	
-.top-header {
-    align-items: center;
-    background: #FFFFFF;
-    box-shadow: 0px 2px 10px #333333;
-    display: flex;
-    height: 80px;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-}
-
-.top-nav {
-	flex: 1;
-}
-
-.top-nav a {
-    color: #1F1F1F;
-    font-weight: 800;
-    margin-left: 35px;
-    text-decoration: none;
-    font-size: 110%;
-}
-
-.top-nav a:hover {
-	background: rgba(255, 255, 255, 0.8);
-	color:#FFCC40;
-}
-
-.top-nav b {
-    color: #1F1F1F;
-    font-weight: 800;
-    margin-right: 35px;
-    text-decoration: none;
-    float: right;
-    font-size: 110%;
-}
-
-.top-nav b:hover {
-	background: rgba(255, 255, 255, 0.8);
-	color:#FFCC40;
-}
-
-#welcome-msg {
-	border-right: 1px solid #FFFFFF;
-	padding-right: 10px;
+  background: rgba(0,0,0,0);
+  color: #333333;
+  font-family: 'Charm';
+  font-weight: 300;
+  font-size: 15px;
 }
 
 .middle{
@@ -65,12 +21,4 @@ body {
 	align-items: center;
 	height: 20px;
 	margin-bottom: 0;
-}
-
-.List {
-	height: 200;
-	align-items: center;
-    line-height: 30px;
-	text-align: center;
-	margin-top: 0;
 }

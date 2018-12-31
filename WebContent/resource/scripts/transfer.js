@@ -19,10 +19,6 @@ function clientSideInclude(id, url) {
 		}
 	}
 	var element = document.getElementById(id);
-	if(!element) {
-		alert("Fucntion clientSideInclude could not find id " + id + "," +"it is necessary to set an id with span or div tag in your page");
-		return;
-	}
 	if(req) {
 		req.open('GET', url, false);// Synchronized request
 		req.send(null);
@@ -36,3 +32,5 @@ function clientSideInclude(id, url) {
 clientSideInclude('includeheader', 'header.html')
 clientSideInclude('includefooter', 'footer.html')
 clientSideInclude('includeSearch', 'page/searchPage.html')
+clientSideInclude('includeheader1', 'page/header.html')
+clientSideInclude('includefooter1', 'page/footer.html')
