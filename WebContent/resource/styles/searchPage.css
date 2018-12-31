@@ -1,24 +1,147 @@
-body {
-  background: rgba(0,0,0,0);
-  color: #333333;
-  font-family: 'Charm';
-  font-weight: 300;
-  font-size: 15px;
+.top-header {
+    align-places: center;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 10px #333333;
+    display: flex;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+.top-nav {
+	flex: 1;
+}
+
+.top-nav a {
+    color: #1F1F1F;
+    font-weight: 800;
+    margin-left: 35px;
+    text-decoration: none;
+    font-size: 110%;
+}
+.top-nav a:hover {
+	background: rgba(255, 255, 255, 0.8);
+	color:#FFCC40;
+}
+
+
+.top-nav b {
+    color: #1F1F1F;
+    font-weight: 800;
+    margin-right: 35px;
+    text-decoration: none;
+    float: right;
+    font-size: 110%;
+}
+.top-nav b:hover {
+	background: rgba(255, 255, 255, 0.8);
+	color:#FFCC40;
+}
+#welcome-msg {
+	border-right: 1px solid #FFFFFF;
+	padding-right: 10px;
 }
 
 .middle{
-	align-items: center;
+	align-places: center;
 	height: 600px;
 }
 
 .middle form {
-    align-items: center;
+    align-places: center;
     line-height: 10;
     text-align: center;
 }
 
 .middle p {
-	align-items: center;
+	align-places: center;
 	height: 20px;
 	margin-bottom: 0;
+}
+#place-list {
+	background: #F2EBD9;
+	color: #624630;
+	list-style: none;
+	margin-left: 180px;
+	min-height: 250px;
+	padding: 10px;
+}
+
+#place-list .notice {
+	font-size: 16px;
+	padding: 60px;
+	text-align: center;
+}
+
+
+.place {
+	align-places: center;
+	border-bottom: 1px solid #FFFFFF;
+	display: flex;
+	margin: 10px;
+	padding: 15px;
+	transition: background-color 100ms linear;
+}
+
+.place:last-child {
+	border: none;
+}
+
+.place:hover {
+	background: rgba(255, 255, 255, 0.8);
+	transition: background-color 100ms linear;
+}
+
+.place img {
+	border: 1px solid #FFFFFF;
+	height: 80px;
+	width: 80px;
+}
+
+.place>div:first-of-type {
+	flex: 1;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+/*
+.place-name {
+	color: #624630;
+	font-weight: 400;
+	text-decoration: none;
+}
+*/
+
+.place-name:hover {
+	text-decoration: underline;
+}
+
+.place-detail {
+	line-height: 20px;
+    padding-right: 100px;
+	text-align: center;
+}
+.place-address {
+	line-height: 20px;
+	padding-right: 20px;
+	text-align: right;
+}
+
+.rating {
+	align-places: center;
+	display: flex;
+	padding-top: 10px;
+}
+
+.fav-link {
+	border-left: 1px solid #FFFFFF;
+	cursor: pointer;
+	line-height: 60px;
+	text-align: center;
+	width: 60px;
+}
+
+.fav-link:hover {
+	color: #F13F3F;
 }
