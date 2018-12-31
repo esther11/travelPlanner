@@ -12,7 +12,7 @@
     let name = $("username").value;
     let password = $("password").value;
 
-    let url = "./signup"; // needs to have a java servlet called Signup
+    let url = "../signup"; // needs to have a java servlet called Signup
     let obj = {user_id: email, name: name, password: password};
     let req = JSON.stringify(obj);
 
@@ -30,7 +30,7 @@
   function onSessionValid(response) {
     $('welcome-msg').innerText = "Welcome, !";
     $("welcome-msg").classList.remove("hidden");
-    setTimeout(redirect, 5000);
+    setTimeout(redirect, 2000);
   }
 
   function redirect() {
