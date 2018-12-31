@@ -84,10 +84,10 @@ public class MySQLTableCreation {
 			stmt.executeUpdate(sql);
 
 			// Step 4: insert fake user 1111/3229c1097c00d497a0fd282d586be050
-			// sql = "INSERT INTO users VALUES ('1111', '3229c1097c00d497a0fd282d586be050', 'JohnSmith')";
-			// stmt.executeUpdate(sql);
+			sql = "INSERT INTO users VALUES ('1111', '3229c1097c00d497a0fd282d586be050', 'JohnSmith')";
+			stmt.executeUpdate(sql);
 
-			// System.out.println("Import done successfully");
+			System.out.println("Import done successfully");
 
 		} catch (Exception e) {
 			e.printStackTrace();

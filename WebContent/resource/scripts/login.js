@@ -11,7 +11,7 @@
     let email = $("email").value;
     let password = $("password").value;
 
-    let url = "./login";
+    let url = "../login";
     let obj = {user_id: email, password: password};
     let req = JSON.stringify(obj);
 
@@ -23,7 +23,7 @@
     if (response.result === "SUCCESS") {
     	$('welcome-msg').innerText = "Welcome!";
     	$("welcome-msg").classList.remove("hidden");
-        setTimeout(redirect, 5000);
+        setTimeout(redirect, 2000);
     }
   }
 
