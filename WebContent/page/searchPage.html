@@ -1,35 +1,35 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
-  	<title>TravelPlan_Search</title>
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  	<link href="../resource/styles/searchPage.css" rel="stylesheet" type="text/css">
-		<script src="../resource/scripts/searchPage.js"></script>
+  <meta charset="utf-8">
+    <title>TravelPlan_Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="searchPage.css" rel="stylesheet" type="text/css">
+    <script src="searchPage.js"></script>
 </head>
 
 <body>
-	<header class="top-header">
-		<nav class="top-nav">
-			<a href="#">Home</a>
-			<a href="#">My Plan</a>
-			<a href="#">Search</a>
-			<b href="#">Sign up</b>
-			<b href="#">Log in</b>
-		</nav>
-	</header>
-	<div class="middle">
-		<form>
-			<br>
-			<p class="title">Search Your Destination</p>
-			<div class="TextField">
-				 <input type="text" name="inputName" title="Search" class="searchinput" id="placeName" value="Place Name" onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Name';" onfocus="if(this.value=='Place Name')value='';" />
+  <header class="top-header">
+    <nav class="top-nav">
+      <a href="#">Home</a>
+      <a href="#">My Plan</a>
+      <a href="#">Search</a>
+      <b href="#">Sign up</b>
+      <b href="#">Log in</b>
+    </nav>
+  </header>
+  <div class="middle">
+    <form>
+      <br>
+      <p class="title">Search Your Destination</p>
+      <div class="TextField">
+         <input type="text" name="inputName" title="Search" class="searchinput" id="placeName" value="Place Name" onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Name';" onfocus="if(this.value=='Place Name')value='';" />
                 <input type="text" name="inputType" title="Search" class="searchinput" id="placeType" value="Place Type" onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Please enter place type';" onfocus="if(this.value=='Please enter place type')value='';" />
-			</div>
-		</form>
-		<input type="submit" value="Search" class="submit" id="search">
-	</div>
-	<ul id="place-list">
+      </div>
+    </form>
+    <input type="submit" value="Search" class="submit" id="search">
+  </div>
+  <ul id="place-list">
 
         <li class="place">
           <img alt="place image" src="http://cn.ccyp.com/media/topic/201411/20141113162006053.jpg" />
@@ -47,7 +47,7 @@
           <p class="place-detail">Details</p>
           <p class="place-address">Address</p>
           <div class="fav-link">
-            <i class="fa fa-heart"></i>
+            <i class="fa fa-heart-o"></i>
           </div>
         </li>
 

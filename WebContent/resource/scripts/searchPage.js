@@ -29,11 +29,11 @@
   }
 
   /**
-	 * List places
-	 *
-	 * @param response -
-	 *            An array of place JSON objects
-	 */
+   * List places
+   *
+   * @param response -
+   *            An array of place JSON objects
+   */
   function listPlaces(places) {
     let ul = $("place-list");
     ul.innerHTML = '';
@@ -51,15 +51,15 @@
 
 // //////////// HELPER FUNCTION
   /**
-	 * Add place to the list
-	 *
-	 * @param ul -
-	 *            The
-	 *            <ul id="place-list">
-	 *            tag
-	 * @param place -
-	 *            The place data (JSON object)
-	 */
+   * Add place to the list
+   *
+   * @param ul -
+   *            The
+   *            <ul id="place-list">
+   *            tag
+   * @param place -
+   *            The place data (JSON object)
+   */
   function createLi(ul, place) {
     // name, rating, address, icon, favorite
     // addeventlistener to fav
@@ -69,11 +69,15 @@
     li.className = "place";
 
     li.dataset.favorite = place.favorite;
-    li.dataset.place_id = place_id; // ////////// need class?
+    li.dataset.place_id = place_id;
 
     // icon
     let icon = gen("img");
-    icon.src = place.photos[0];
+    if (place.photos.length == 0) {
+      icon.src = "https://twinscards.com/assets/no-image.jpg";
+    } else {
+      icon.src = place.photos[0];
+    }
     li.appendChild(icon);
 
     // section
@@ -91,7 +95,8 @@
     type.innerHTML = 'Category: ' + place.types.join(', ');
     section.appendChild(type);
 
-    let rating = gen("div"); // /////// need class?
+    // rating
+    let rating = gen("div"); 
     rating.className = "rating";
     for (let i = 1; i < place.rating; i++) {
       let star = gen("i");
@@ -107,11 +112,13 @@
     section.appendChild(rating);
     li.appendChild(section);
 
+    // detail, might be deleted
     let detail = gen("p");
     detail.innerHTML = "Details";
     detail.className = "place-detail";
     li.appendChild(detail);
 
+    // address
     let address = gen("p");
     address.className = "place-address";
     address.innerHTML = place.address;
@@ -127,7 +134,7 @@
     favLink.appendChild(i);
 
     favLink.onclick = function() {
-    	changeFavorite(place_id);
+      changeFavorite(place_id);
     };
     li.appendChild(favLink);
 
@@ -135,41 +142,40 @@
   }
 
   function changeFavorite(place_id) {
-	 let li = $("place-" + place_id);
-	 let fav = $('fav-icon-' + place_id);
-	 let favorite = li.dataset.favorite !== "true";
+   let li = $("place-" + place_id);
+   let fav = $('fav-icon-' + place_id);
+   let favorite = li.dataset.favorite !== "true";
 
-	 var url = "../favorite";
-	 if (window.localStorage.getItem("status") === "loggedIn") {
-		  user_id = window.localStorage.getItem("user_id");
-		  console.log(user_id);
-	 }
-	 if (user_id === null) {
-		 ///////////////////////////////////////////////////////////// location?
-		 window.location = "login.html"; // check if user has logged in or
-											// not
-	 }
-	 var req = JSON.stringify({
+   var url = "../favorite";
+   if (window.localStorage.getItem("status") === "loggedIn") {
+      user_id = window.localStorage.getItem("user_id");
+      console.log(user_id);
+   }
+   if (user_id === null) {
+     window.alert("Please login to access your WistList");
+     window.location = "login.html"; // check if user has logged in or not                      
+   }
+   var req = JSON.stringify({
          user_id: user_id,
          favorite: [place_id]
      });
      var method = favorite ? "PUT" : "DELETE";
      ajax(method, url, req,
-    		 // successful callback
-    		 function(res) {
-    	 		var result = JSON.parse(res);
-    	 		if (result.result === "SUCCESS for Adding into favorite list") {
-    	 			li.dataset.favorite = favorite;
-    	 			fav.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
-    	 		}
+         // successful callback
+         function(res) {
+          var result = JSON.parse(res);
+          if (result.result === "SUCCESS for Adding into favorite list") {
+            li.dataset.favorite = favorite;
+            fav.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
+          }
      });
   }
 
 //  function addToFavorite() {
 //// 标记成 favorite : true;
 //// 调用一个 ajax PUT → PlaceFavorite
-//	  var halfstar = $('fav-icon-' + placeid);
-//	  var favorite = li.dataset.favorite;
+//    var halfstar = $('fav-icon-' + placeid);
+//    var favorite = li.dataset.favorite;
 //      var url = './favorite';
 //      var req = JSON.stringify({
 //          user_id: user_id,
@@ -190,8 +196,8 @@
 //  function removeFavorite() {
 //// 标记成 favorite : false;
 //// 调用一个 ajax DELETE → PlaceFavorite
-//	  var favIcon = $('fav-icon-' + placeid);
-//	  var favorite = li.dataset.favorite;
+//    var favIcon = $('fav-icon-' + placeid);
+//    var favorite = li.dataset.favorite;
 //      var url = './favorite';
 //      var req = JSON.stringify({
 //          user_id: user_id,
@@ -210,12 +216,12 @@
 //  }
 
   /**
-	 * return the dom node of the given id
-	 *
-	 * @param {string}
-	 *            id - id of the element
-	 * @return {node} - dom node of the given id
-	 */
+   * return the dom node of the given id
+   *
+   * @param {string}
+   *            id - id of the element
+   * @return {node} - dom node of the given id
+   */
   function $(id) {
     return document.getElementById(id);
   }
@@ -251,7 +257,7 @@
       xhr.send();
     } else {
       xhr.setRequestHeader("Content-Type",
-  					         "application/json;charset=utf-8");
+                     "application/json;charset=utf-8");
       xhr.send(data);
     }
   }
