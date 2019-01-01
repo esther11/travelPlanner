@@ -57,8 +57,10 @@ public class SearchPlace extends HttpServlet {
         DBConnection connection = DBConnectionFactory.getConnection();
         try {
         		List<Place> places = connection.searchPlaces(placeName, placeType);
-        		List<String> favoritedPlaceIds = connection.getFavoritePlaceIds(userId);
-        		
+        		// Check if there is userId existed
+        		if (userId != null && userId.length() != 0) {
+        			List<String> favoritedPlaceIds = connection.getFavoritePlaceIds(userId);
+        		}
         		JSONArray array = new JSONArray();
         		for (Place place : places) {
         			JSONObject obj = place.toJSONObject();

@@ -94,7 +94,7 @@ public class GoogleMapsSearchPlaceAPI {
 	
 	
 	public List<Place> search(String placeName, String placeType) {
-		if (placeName == null && placeType == null) {
+		if (placeName.equals("") && placeType.equals("")) {
 			placeType = DEFAULT_TYPE; // Current is "Los Angeles Downtown"
 		}
 		try {
