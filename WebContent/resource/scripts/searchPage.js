@@ -1,19 +1,15 @@
 (function() {
   "use strict";
 
-  /*
-	 * Variables
-	 */
-  
-  var user_id = "1111"; // hard-code id for testing, need sessions
-  
+  var user_id = null; // hard-code id for testing, need sessions
+
   window.addEventListener("load", initialize);
 
   function initialize() {
     $("search").addEventListener("click", search);
   }
 
-  function search() {	  
+  function search() {
     let placeName = $("placeName").value === "Place Name" ? "" : $("placeName").value;
     let placeType = $("placeType").value === "Place Type" ? "" : $("placeType").value;
 
@@ -27,13 +23,14 @@
     if (!places || places.length === 0) {
       showError("No requested places");
     } else {
+      console.log(places[0]);
       listPlaces(places);
     }
   }
-  
+
   /**
 	 * List places
-	 * 
+	 *
 	 * @param response -
 	 *            An array of place JSON objects
 	 */
@@ -55,7 +52,7 @@
 // //////////// HELPER FUNCTION
   /**
 	 * Add place to the list
-	 * 
+	 *
 	 * @param ul -
 	 *            The
 	 *            <ul id="place-list">
@@ -66,51 +63,55 @@
   function createLi(ul, place) {
     // name, rating, address, icon, favorite
     // addeventlistener to fav
-    let place_id = place.place_id; 
+    let place_id = place.place_id;
     let li = gen("li");
-    li.id = "place-" + place_id; 
+    li.id = "place-" + place_id;
     li.className = "place";
-    
+
     li.dataset.favorite = place.favorite;
     li.dataset.place_id = place_id; // ////////// need class?
-    
+
     // icon
     let icon = gen("img");
-    icon.src = place.icon;
+    icon.src = place.photos[0];
     li.appendChild(icon);
-    
+
     // section
     let section = gen("div");
-    
+
     // name
     let name = gen("p");
     name.innerHTML = place.name;
     name.className = "place-name";
     section.appendChild(name);
-    
+
     // types
     let type = gen("p");
     type.className = "place-category";
     type.innerHTML = 'Category: ' + place.types.join(', ');
     section.appendChild(type);
-     
+
     let rating = gen("div"); // /////// need class?
     rating.className = "rating";
-    /////////////////////////////////////////
-    console.log(place.rating);
-    for (let i = 0; i < place.rating; i++) {
+    for (let i = 1; i < place.rating; i++) {
       let star = gen("i");
       star.className = 'fa fa-star';
       rating.appendChild(star);
     }
+    if (('' + place.rating).match(/\.5$/)) {
+        let halfStar = gen("i");
+        halfStar.classList.add("fa");
+        halfStar.classList.add("fa-star-half-o");
+        rating.appendChild(halfStar);
+    }
     section.appendChild(rating);
     li.appendChild(section);
-    
+
     let detail = gen("p");
     detail.innerHTML = "Details";
     detail.className = "place-detail";
     li.appendChild(detail);
-    
+
     let address = gen("p");
     address.className = "place-address";
     address.innerHTML = place.address;
@@ -119,12 +120,12 @@
     // favorite link
     let favLink = gen("p");
     favLink.className = 'fav-link';
-    
+
     let i = gen("i");
     i.id = 'fav-icon-' + place_id;
     i.className = place.favorite ? "fa fa-heart" : "fa fa-heart-o";
     favLink.appendChild(i);
-    
+
     favLink.onclick = function() {
     	changeFavorite(place_id);
     };
@@ -134,15 +135,15 @@
   }
 
   function changeFavorite(place_id) {
-	 let li = $("place-" + place_id); 
+	 let li = $("place-" + place_id);
 	 let fav = $('fav-icon-' + place_id);
-	 let favorite = li.dataset.favorite !== "true"; 
-	 
+	 let favorite = li.dataset.favorite !== "true";
+
 	 var url = "../favorite";
-	 /*
-		 * if (sessionStorage.getItem("status") != null) { user_id =
-		 * sessionStorage.getItem("user_id"); }
-		 */
+	 if (window.localStorage.getItem("status") === "loggedIn") {
+		  user_id = window.localStorage.getItem("user_id");
+		  console.log(user_id);
+	 }
 	 if (user_id === null) {
 		 ///////////////////////////////////////////////////////////// location?
 		 window.location = "login.html"; // check if user has logged in or
@@ -153,15 +154,15 @@
          favorite: [place_id]
      });
      var method = favorite ? "PUT" : "DELETE";
-     ajax(method, url, req, 
+     ajax(method, url, req,
     		 // successful callback
     		 function(res) {
     	 		var result = JSON.parse(res);
-    	 		if (result.resule === "SUCCESS for Adding into favorite list") {
+    	 		if (result.result === "SUCCESS for Adding into favorite list") {
     	 			li.dataset.favorite = favorite;
     	 			fav.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
     	 		}
-     }); 
+     });
   }
 
 //  function addToFavorite() {
@@ -210,7 +211,7 @@
 
   /**
 	 * return the dom node of the given id
-	 * 
+	 *
 	 * @param {string}
 	 *            id - id of the element
 	 * @return {node} - dom node of the given id
