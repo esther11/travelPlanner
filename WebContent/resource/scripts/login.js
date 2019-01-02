@@ -21,8 +21,10 @@
   function successLogin(response) {
     response = JSON.parse(response);
     if (response.result === "SUCCESS") {
-    	$('welcome-msg').innerText = "Welcome!";
-    	$("welcome-msg").classList.remove("hidden");
+      window.localStorage.setItem("status", "loggedIn");
+      window.localStorage.setItem("user_id", response["user_id"]);
+      $('welcome-msg').innerText = "Welcome, " + response["name"] + "!";
+      $("welcome-msg").classList.remove("hidden");
         setTimeout(redirect, 2000);
     }
   }
