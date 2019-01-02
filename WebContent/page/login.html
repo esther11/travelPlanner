@@ -7,28 +7,24 @@
   </head>
   <body>
     <header></header>
-    <main>
-      <h2>Login to TravelPlanner</h2>
-      <span id="welcome-msg"></span>
+    <main class="centered">
+      <h2>Login</h2>
+      <div class="imgcontainer">
+        <img src="lock.jpeg" alt="lock" class="avatar">
+      </div>
+      <p id="login-error" class="hidden"></p>
+      <p id="welcome-msg" class="hidden"></p>
       <form>
-        <div class="imgcontainer">
-          <img src="../resource/images/lock.jpeg" alt="Avatar" class="avatar">
-        </div>
         <div class="container">
-          <h4>Email</h4>
-          <input id="email" type="text" placeholder="Enter Email" name="email" required></input>
-
-          <h4>Password</h4>
-          <input id="password" type="password" placeholder="Enter Password" name="psw" required></input>
-
-          <button id="login-btn">Login</button>
-          <p id="login-error"></p>
-          <span><a href="signup.html">Sign up</a></span>
+          <input id="email" type="text" placeholder="Enter Email" required></input>
+          <input id="password" type="password" placeholder="Enter Password" required></input>
         </div>
       </form>
+      <button id="login-btn">Login</button>
+      <span><a href="signup.html">Sign up</a></span>
     </main>
     <footer></footer>
     
-  <script src="../resource/scripts/login.js"></script>
+    <script src="../resource/scripts/login.js"></script>
   </body>
 </html>

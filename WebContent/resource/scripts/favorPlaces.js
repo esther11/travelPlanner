@@ -192,3 +192,4 @@ function openNav() {
 function closeNav() {
     document.getElementById("panel").style.marginLeft = "-310px";
 }
+

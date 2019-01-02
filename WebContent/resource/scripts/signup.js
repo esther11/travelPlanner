@@ -12,27 +12,25 @@
     let name = $("username").value;
     let password = $("password").value;
 
-    let url = "./signup"; // needs to have a java servlet called Signup
+    let url = "../signup"; // needs to have a java servlet called Signup
     let obj = {user_id: email, name: name, password: password};
     let req = JSON.stringify(obj);
 
-    ajax("POST", url, req, successSignup, showSignupError);
+    ajax("PUT", url, req, successSignup, showSignupError);
   }
 
   function successSignup(response) {
+	console.log(response);
     response = JSON.parse(response);
     if (response.result === "SUCCESS") {
-      // the returned response should be something like this:
-      // { result: "SUCCESS", user_id: ..., name: ...}
       onSessionValid(response);
     }
   }
 
   function onSessionValid(response) {
-    let username = response.name;
-
-    $('welcome-msg').innerText = "Welcome, " + username + " You will be redirected to login page shortly";
-    setTimeout(redirect, 5000);
+    $('welcome-msg').innerText = "Welcome, !";
+    $("welcome-msg").classList.remove("hidden");
+    setTimeout(redirect, 2000);
   }
 
   function redirect() {
@@ -40,8 +38,8 @@
   }
 
   function showSignupError() {
+	$("signup-error").innerText = "Email or username already exists";
     $("signup-error").classList.remove("hidden");
-    $("signup-error").innerText = "Email or username already exists";
   }
 
   /**
@@ -60,8 +58,6 @@
     xhr.onload = function() {
       if (xhr.status === 200) {
         callback(xhr.responseText);
-      } else if (xhr.status === 403) {
-        onSessionInvalid();
       } else {
         errorHandler();
       }

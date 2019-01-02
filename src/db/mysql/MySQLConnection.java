@@ -18,12 +18,12 @@ import external.GoogleMapsSearchPlaceAPI;
 public class MySQLConnection implements DBConnection {
 
 	private Connection conn;
-	
+
 	public MySQLConnection() {
 		try {
 				Class.forName("com.mysql.cj.jdbc.Driver").getConstructor().newInstance();
 				conn = DriverManager.getConnection(MySQLDBUtil.URL);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,8 +39,8 @@ public class MySQLConnection implements DBConnection {
 	   			 e.printStackTrace();
 	   		 }
 	   	 }
-	}	
-	
+	}
+
 	@Override
 	public void setFavoritePlaces(String userId, List<String> placeIds) {
 		// TODO Auto-generated method stub
@@ -50,21 +50,21 @@ public class MySQLConnection implements DBConnection {
 		}
 
 		int largestOrder = 0;
-		try {							
+		try {
 			String sql = "SELECT MAX(access_order) FROM favorites WHERE user_id = ?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);
 			ResultSet rs = ps.executeQuery();
-			
+
 			// if there is at least one favorite place for this user, get the order for further use
-			if (rs.next()) { 
+			if (rs.next()) {
 				largestOrder = rs.getInt(1);
-			} 
+			}
 
 			for (String placeId : placeIds) {
 				updateOrder(userId, placeId, ++largestOrder);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,8 +86,8 @@ public class MySQLConnection implements DBConnection {
 			for (String placeId : placeIds) {
 				ps.setString(2, placeId);
 				ps.execute();
-			}			
-			
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -105,7 +105,7 @@ public class MySQLConnection implements DBConnection {
 		try {
 			for (String placeId : placeIds) {
 				updateOrder(userId, placeId, ++largestOrder);
-			}			
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -118,7 +118,7 @@ public class MySQLConnection implements DBConnection {
 			System.err.println("DB connection failed");
 			return new ArrayList<>();
 		}
-		
+
 		List<String> favoritePlaces = new ArrayList<>();
 
 		try {
@@ -126,12 +126,12 @@ public class MySQLConnection implements DBConnection {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userId);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				String placeId = rs.getString("place_id");
 				favoritePlaces.add(placeId);
 			}
-			
+
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -144,7 +144,7 @@ public class MySQLConnection implements DBConnection {
 		if(conn == null) {
 			return new ArrayList<>();
 		}
-		
+
 		List<Place> favoritePlaces = new ArrayList<>();
 		List<String> placeIds = getFavoritePlaceIds(userId);
 		try {
@@ -164,7 +164,7 @@ public class MySQLConnection implements DBConnection {
 					builder.setLon(rs.getDouble("longitude"));
 					builder.setTypes(getTypes(rs.getString("place_id")));
 					builder.setPhotos(getPhotos(rs.getString("place_id")));
-					
+
 					favoritePlaces.add(builder.build());
 				}
 			}
@@ -190,7 +190,7 @@ public class MySQLConnection implements DBConnection {
 				String photo =rs.getString("photo");
 				photos.add(photo);
 			}
-			
+
 		}catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -213,7 +213,7 @@ public class MySQLConnection implements DBConnection {
 				String type =rs.getString("type");
 				types.add(type);
 			}
-			
+
 		}catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -237,8 +237,8 @@ public class MySQLConnection implements DBConnection {
 
 			if (rs.next()) { // if it is already in the table, update the order
 				try {
-					sql = "UPDATE favorites f " 
-							+ "SET f.access_order = ? " 
+					sql = "UPDATE favorites f "
+							+ "SET f.access_order = ? "
 							+ "WHERE f.user_id = ? AND f.place_id = ?";
 					PreparedStatement stmt = conn.prepareStatement(sql);
 					stmt.setInt(1, order);
@@ -262,7 +262,7 @@ public class MySQLConnection implements DBConnection {
 					e.printStackTrace();
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -271,7 +271,7 @@ public class MySQLConnection implements DBConnection {
 	@Override
 	public String checkOrder(String userId, List<String> placeIds) {
 		// TODO Auto-generated method stub
-		
+
 		return null;
 	}
 
@@ -315,9 +315,9 @@ public class MySQLConnection implements DBConnection {
 				for (String type : place.getTypes()) {
 					ps.setString(2, type);
 					ps.execute();
-				}	
+				}
 			}
-			
+
 			if (place.getPhotos() != null) {
 				sql = "INSERT IGNORE INTO photos VALUES(?, ?)";
 				ps = conn.prepareStatement(sql);
@@ -340,7 +340,7 @@ public class MySQLConnection implements DBConnection {
 		if (conn == null) {
 			return null;
 		}
-		
+
 		String name = null;
 		try {
 			String sql = "SELECT username FROM users WHERE user_id = ? ";
@@ -373,10 +373,10 @@ public class MySQLConnection implements DBConnection {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean addUser(String userId, String password, String username) {
 		if (conn == null) {
@@ -391,10 +391,10 @@ public class MySQLConnection implements DBConnection {
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}	
+		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean verifyUserId(String userId) {
 		if (conn == null) {
@@ -407,11 +407,11 @@ public class MySQLConnection implements DBConnection {
 			ResultSet rs = statement.executeQuery();
 			if (!rs.next()) { // if user doesn't exist, return true
 				return true;
-			} 
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;	
+		return false;
 	}
 
 }
