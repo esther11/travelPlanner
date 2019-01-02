@@ -74,7 +74,7 @@ public class Login extends HttpServlet {
 
 			JSONObject obj = new JSONObject();
 			if (connection.verifyLogin(userId, password)) {
-				obj.put("result", "SUCCESS").put("user_id", userId);
+				obj.put("result", "SUCCESS").put("user_id", userId).put("name", connection.getFullname(userId));
 			} else {
 				response.setStatus(401);
 				obj.put("result", "User Doesn't Exist");
