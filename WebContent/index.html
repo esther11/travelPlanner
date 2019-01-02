@@ -10,9 +10,14 @@
   </head>
   <body>
 	<div id="includeheader1"></div>
-		<div id= includeSearch></div>
+		<div id="includeSearch"></div>
 	<div id="includefooter1"></div>
 	<script src="./resource/scripts/searchPage.js"></script>
 	<script src="./resource/scripts/transfer.js"></script>
+	<script>
+		clientSideInclude('includeSearch', 'page/searchPage.html')
+		clientSideInclude('includeheader1', 'page/header.html')
+		clientSideInclude('includefooter1', 'page/footer.html')
+	</script>
   </body>
 </html>

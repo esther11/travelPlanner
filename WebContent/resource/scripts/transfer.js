@@ -29,8 +29,4 @@ function clientSideInclude(id, url) {
 	}
 }
 
-clientSideInclude('includeheader', 'header.html')
-clientSideInclude('includefooter', 'footer.html')
-clientSideInclude('includeSearch', 'page/searchPage.html')
-clientSideInclude('includeheader1', 'page/header.html')
-clientSideInclude('includefooter1', 'page/footer.html')
+
