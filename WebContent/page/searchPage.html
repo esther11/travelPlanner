@@ -15,15 +15,15 @@
 	    <div class="TextField">
 	       <input type="text" name="inputName" title="Search" 
 	       class="searchinput" id="placeName" value="Place Name" 
-	       onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Name';" 
-	       onfocus="if(this.value=='Place Name')value='';" />
+	       onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Name';this.style.color='#b8c4ce';if(this.value!='Place Name')this.style.color='#000000'" 
+	       onfocus="if(this.value=='Place Name')value='';this.style.color='#000000'" />
 	       <input type="text" name="inputType" title="Search" 
 	       class="searchinput" id="placeType" value="Place Type" 
-	       onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Type';" 
-	       onfocus="if(this.value=='Place Type')value='';" />	    
+	       onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Type';this.style.color='#b8c4ce';if(this.value!='Place Type')this.style.color='#000000'" 
+	       onfocus="if(this.value=='Place Type')value='';this.style.color='#000000'" />   
 	    </div>
 	  </form>
-	  <input class="submit" id="search" type="submit" value="Search" />
+	  <input class="submit" id="search" type="submit" value="Search" />	 
 	</div>
 	<ul id="place-list">
 		<li class="place">

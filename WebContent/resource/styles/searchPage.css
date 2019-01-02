@@ -47,17 +47,20 @@ body {
 }
 
 .submit {
-position: relative;
+	position: absolute;
 	color: #000000;
+	top: 195px;
+	right: 175px;
 }
 
 #place-list {
 	background: #F2EBD9;
 	color: #624630;
 	list-style: none;
-	margin-left: 180px;
 	min-height: 250px;
 	padding: 10px;
+	width: 100%;
+	margin-bottom: 0px;
 }
 
 #place-list .notice {
