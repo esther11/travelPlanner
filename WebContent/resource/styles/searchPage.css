@@ -20,7 +20,7 @@ body {
 	height: 200px;
     line-height: 10;
     text-align: center;
-    margin-top: 60px;
+    margin-top: 0px;
 }
 
 .middle p {
@@ -47,10 +47,13 @@ body {
 }
 
 .submit {
-	position: absolute;
+	z-index: 1;
+	position: relative;
+	width: 10%;
 	color: #000000;
-	top: 195px;
-	right: 175px;
+	top: -20px;
+	text-align: center;
+	left: 45%;
 }
 
 #place-list {
