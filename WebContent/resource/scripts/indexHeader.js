@@ -9,7 +9,7 @@
 	function initialize() {
 		var myplan = $("header-myplan");
 		var search = $("header-search");
-		var login = $("login/logout-link");
+		var login = $("login-logout-link");
 		var welcome = $("welcome-msg");
 
 		if (window.localStorage.getItem("status") === "loggedIn") {
