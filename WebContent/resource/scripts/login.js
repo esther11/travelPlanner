@@ -23,6 +23,8 @@
     if (response.result === "SUCCESS") {
       window.localStorage.setItem("status", "loggedIn");
       window.localStorage.setItem("user_id", response["user_id"]);
+      window.localStorage.setItem("username", response["name"]);
+      
       $('welcome-msg').innerText = "Welcome, " + response["name"] + "!";
       $("welcome-msg").classList.remove("hidden");
         setTimeout(redirect, 2000);
@@ -54,24 +56,24 @@
    
     xhr.onload = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
-    	  callback(xhr.responseText);
-	  } else {
-		  errorHandler();
-	  }
+        callback(xhr.responseText);
+    } else {
+      errorHandler();
+    }
     }
 
     xhr.onerror = function() {
       console.error("The request couldn't be completed.");
-	  errorHandler();
+    errorHandler();
     }
   
     if (data === null) {
-    	xhr.send();
-	} else {
-		xhr.setRequestHeader("Content-Type",
-					         "application/json;charset=utf-8");
-		xhr.send(data);
-	}
+      xhr.send();
+  } else {
+    xhr.setRequestHeader("Content-Type",
+                   "application/json;charset=utf-8");
+    xhr.send(data);
+  }
   }
 
 })();
