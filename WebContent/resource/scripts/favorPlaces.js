@@ -10,6 +10,10 @@ function initialize() {
 	document.getElementById("panel-openbtn").addEventListener('click', openNav);
 	document.getElementById("panel-closebtn").addEventListener('click', closeNav);
 
+	// Register dragula container
+	var drake = dragula([document.getElementById('place-list')]);
+	drake.on('dragend', updateRoutes);
+
 	// Initialize map and infowindow
     var mapOptions = {
         // Location of Los Angeles
@@ -57,8 +61,8 @@ function ajax(method, url, data, callback, errorHandler) {
     }
 }
 
+// Load user favorite places from DB and display recommended routes and place panel
 function loadFavoritePlaces() {
-    // var url = 'http://localhost:8080/TravelPlanner/favorite';
 	var url = "../favorite";
     var params = 'user_id=' + user_id;
     var req = JSON.stringify({});
@@ -70,7 +74,6 @@ function loadFavoritePlaces() {
             alert('No favorite places added, turn to SEARCH page to add your favorite places');
         } else {
             placeList = places;
-            addMarkers();
             // by setting last argument as true, we use Google recommended routes
             renderRoutes(directionsService, directionsDisplay, true);
             console.log(placeList);
@@ -101,6 +104,7 @@ function renderRoutes(directionsService, directionsDisplay, optimizeWaypoints) {
 	}, function(response, status) {
 		if (status === 'OK') {
 			directionsDisplay.setDirections(response);
+			addMarkers();
 			// if we choose to use Google recommended routes,
 			// re-order place list and re-render the place panel accordingly
 			if (optimizeWaypoints) {
@@ -140,6 +144,8 @@ function renderPlacePanel() {
 		var li = document.createElement('li');
 		li.setAttribute("class", "place");
 		li.setAttribute("id", placeId);
+		// bind list item with data in placeList
+		li.setAttribute("placelistindex", i);
 
 		// add content in the list item
 		var icon = li.appendChild(document.createElement('img'));
@@ -156,32 +162,65 @@ function renderPlacePanel() {
 	}
 }
 
-// Display customized markers on map and add them to markers[]
+// Display customized markers on map
 function addMarkers() {
+	clearMarkers();
 	for (var i = 0; i < placeList.length; i++) {
-		displayMarkerWithTimeout(placeList[i].place_id, placeList[i].lat, placeList[i].lon, placeList[i].name, placeList[i].address, i * 100);
+		displayMarkerWithTimeout(i, i * 100);
 	}	
 }
 
 // Display a marker on map after specified timeout
-function displayMarkerWithTimeout(lat, lng, title, address, timeout) {
+function displayMarkerWithTimeout(i, timeout) {
+	var place = placeList[i];
 	window.setTimeout(function() {
 		var marker = new google.maps.Marker({
-			position: {lat: lat, lng: lng},
+			position: {lat: place.lat, lng: place.lon},
 			map: map,
-			title: title,
+			title: place.name,
 			animation: google.maps.Animation.DROP
 		});
 
-		console.log(marker);
+		place.marker = marker;
 
 		marker.addListener('mouseover', function() {
-			infowindow.setContent("<p style='font-weight: bold;'>" + title
-					+ "</p><p>" + address + "</p>"
+			infowindow.setContent("<p style='font-weight: bold;'>" + place.name
+					+ "</p><p>" + place.address + "</p>"
 			);
 		    infowindow.open(map, marker);
 		});
 	}, timeout);
+}
+
+// Clear all markers
+function clearMarkers() {
+	for (var i = 0; i < placeList.length; i++) {
+		if (placeList[i].marker) {
+			placeList[i].marker.setMap(null);
+		}
+	}
+}
+
+/**
+ * Event Handler Functions
+ */
+
+// Update placeList order according to the order of places in place panel, and re-render routes
+function updateRoutes() {
+	var listItems = document.getElementsByClassName('place');
+	console.log(listItems);
+	if (listItems.length <= 1) return;
+
+	// update placeList order
+	var newPlaceList = [];
+	for (var i = 0; i < listItems.length; i++) {
+		newPlaceList.push(placeList[listItems[i].getAttribute('placelistindex')]);
+		// re-bind list item with data in placeList
+		listItems[i].setAttribute("placelistindex", i);
+	}
+	placeList = newPlaceList;
+	
+	renderRoutes(directionsService, directionsDisplay, false);
 }
 
 // Open side panel of the place list
