@@ -36,25 +36,25 @@
 	function myPlanPage() {
 		if (user_id === null) {
 			window.alert("Please login first to access your WistList.");
-			window.location = "login.html"; // check if user has logged in or
-											// not
+			window.location = "./page/login.html"; // check if user has logged
+													// in or not
 		} else {
-			window.location = "favorPlaces.html";
+			window.location = "./page/favorPlaces.html";
 		}
 	}
 
 	function searchPage() {
-		window.location = "searchPage.html";
+		window.location = "./page/searchPage.html";
 	}
 
 	function logOut() {
 		window.localStorage.removeItem("status");
 		window.localStorage.removeItem("user_id");
 		window.localStorage.removeItem("username");
-		window.location = "searchPage.html";
+		window.location = "./page/searchPage.html";
 	}
 
 	function logIn() {
-		window.location = "login.html";
+		window.location = "./page/login.html";
 	}
 })();
