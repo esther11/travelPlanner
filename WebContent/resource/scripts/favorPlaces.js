@@ -85,7 +85,8 @@ function loadFavoritePlaces() {
 
 // Render routes according to place list
 function renderRoutes(directionsService, directionsDisplay, optimizeWaypoints) {
-	if (placeList.length <= 1) return;
+	if (placeList.length < 1) return;
+	if (placeList.length == 1) return renderPlacePanel();
 
 	var waypoints = [];
 	for (var i = 1; i < placeList.length - 1; i++) {
