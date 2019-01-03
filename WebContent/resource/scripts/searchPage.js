@@ -1,8 +1,8 @@
 (function() {
   "use strict";
 
-  var user_id = null; // hard-code id for testing, need sessions
-
+  var user_id = null; 
+  
   window.addEventListener("load", initialize);
 
   function initialize() {
@@ -16,7 +16,7 @@
     let placeName = $("placeName").value === "Place Name" ? "" : $("placeName").value;
     let placeType = $("placeType").value === "Place Type" ? "" : $("placeType").value;
 
-    let url = "../search?placeName=" + placeName + "&placeType=" + placeType;
+    let url = "../search?user_id=" + user_id + "&placeName=" + placeName + "&placeType=" + placeType;
     let req = JSON.stringify({});
     ajax("GET", url, req, successSearch, showError);
   }
@@ -164,7 +164,8 @@
          // successful callback
          function(res) {
           var result = JSON.parse(res);
-          if (result.result === "SUCCESS for Adding into favorite list") {
+          if (result.result === "SUCCESS for Adding into favorite list" ||
+              result.result === "SUCCESS for Deleting") {
             li.dataset.favorite = favorite;
             fav.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
           }
