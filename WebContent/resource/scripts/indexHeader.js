@@ -11,6 +11,7 @@
 		var search = $("header-search");
 		var login = $("login-logout-link");
 		var welcome = $("welcome-msg");
+		var signup = $("signup-link");
 
 		if (window.localStorage.getItem("status") === "loggedIn") {
 			user_id = window.localStorage.getItem("user_id");
@@ -18,6 +19,7 @@
 			login.innerHTML = "Logout";
 			login.addEventListener("click", logOut);
 			welcome.innerHTML = "Welcome, " + username;
+			hideElement(signup);
 		} else {
 			login.innerHTML = "Login";
 			login.addEventListener("click", logIn);
@@ -26,8 +28,12 @@
 
 		myplan.addEventListener("click", myPlanPage);
 		search.addEventListener("click", searchPage);
-
+		signup.addEventListener("click", signUpPage);
 	}
+
+	function hideElement(element) {
+        element.style.display = 'none';
+    }
 
 	function $(id) {
 		return document.getElementById(id);
@@ -47,6 +53,10 @@
 		window.location = "./page/searchPage.html";
 	}
 
+	function signUpPage() {
+		window.location = "./page/signup.html";
+	}
+	
 	function logOut() {
 		window.localStorage.removeItem("status");
 		window.localStorage.removeItem("user_id");

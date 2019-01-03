@@ -11,7 +11,7 @@
 		var search = $("header-search");
 		var login = $("login-logout-link");
 		var welcome = $("welcome-msg");
-		var signupBtn = $("Signup-link")
+		var signup = $("signup-link");
 
 		if (window.localStorage.getItem("status") === "loggedIn") {
 			user_id = window.localStorage.getItem("user_id");
@@ -19,7 +19,7 @@
 			login.innerHTML = "Logout";
 			login.addEventListener("click", logOut);
 			welcome.innerHTML = "Welcome, " + username;
-			hideElement(signupBtn);
+			hideElement(signup);
 		} else {
 			login.innerHTML = "Login";
 			login.addEventListener("click", logIn);
@@ -28,6 +28,7 @@
 
 		myplan.addEventListener("click", myPlanPage);
 		search.addEventListener("click", searchPage);
+		signup.addEventListener("click", signUpPage);
 
 	}
 	
@@ -53,6 +54,11 @@
 		window.location = "searchPage.html";
 	}
 
+	function signUpPage() {
+		console.log("inside signuppage");
+		window.location = "signup.html";
+	}
+	
 	function logOut() {
 		window.localStorage.removeItem("status");
 		window.localStorage.removeItem("user_id");
@@ -62,5 +68,5 @@
 
 	function logIn() {
 		window.location = "login.html";
-	}
+	}	
 })();

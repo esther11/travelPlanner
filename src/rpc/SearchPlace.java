@@ -1,6 +1,7 @@
 package rpc;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -58,14 +59,15 @@ public class SearchPlace extends HttpServlet {
         try {
         		List<Place> places = connection.searchPlaces(placeName, placeType);
         		// Check if there is userId existed
+        		List<String> favoritePlaceIds = new ArrayList<>();
         		if (userId != null && userId.length() != 0) {
-        			List<String> favoritedPlaceIds = connection.getFavoritePlaceIds(userId);
-        		}
+        			favoritePlaceIds = connection.getFavoritePlaceIds(userId);
+        		}        		
+        		
         		JSONArray array = new JSONArray();
         		for (Place place : places) {
         			JSONObject obj = place.toJSONObject();
-        			// comment below, "favorite" is boolean in PlaceFavorite.java
-    				// obj.put("favorite", favoritedPlaceIds.contains(place.getPlaceId()));
+    				obj.put("favorite", favoritePlaceIds.contains(place.getPlaceId()));
     				array.put(obj);
         		}
         		RpcHelper.writeJsonArray(response, array);

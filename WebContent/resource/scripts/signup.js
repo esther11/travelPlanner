@@ -20,7 +20,7 @@
   }
 
   function successSignup(response) {
-	console.log(response);
+  console.log(response);
     response = JSON.parse(response);
     if (response.result === "SUCCESS") {
       onSessionValid(response);
@@ -28,7 +28,7 @@
   }
 
   function onSessionValid(response) {
-    $('welcome-msg').innerText = "Welcome, !";
+    $('welcome-msg').innerText = "Welcome, " + response["name"] + "!";
     $("welcome-msg").classList.remove("hidden");
     setTimeout(redirect, 2000);
   }
@@ -38,7 +38,7 @@
   }
 
   function showSignupError() {
-	$("signup-error").innerText = "Email or username already exists";
+  $("signup-error").innerText = "Email or username already exists";
     $("signup-error").classList.remove("hidden");
   }
 
