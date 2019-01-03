@@ -7,13 +7,16 @@
 
   function initialize() {
     $("search").addEventListener("click", search);
+    if (window.localStorage.getItem("status") === "loggedIn") {
+        user_id = window.localStorage.getItem("user_id");
+     }
   }
-
+  
   function search() {
     let placeName = $("placeName").value === "Place Name" ? "" : $("placeName").value;
     let placeType = $("placeType").value === "Place Type" ? "" : $("placeType").value;
 
-    let url = "./search?placeName=" + placeName + "&placeType=" + placeType;
+    let url = "./search?user_id=" + user_id + "&placeName=" + placeName + "&placeType=" + placeType;
     let req = JSON.stringify({});
     ajax("GET", url, req, successSearch, showError);
   }
@@ -147,12 +150,9 @@
    let favorite = li.dataset.favorite !== "true";
 
    var url = "./favorite";
-   if (window.localStorage.getItem("status") === "loggedIn") {
-      user_id = window.localStorage.getItem("user_id");
-      console.log(user_id);
-   }
+
    if (user_id === null) {
-     window.alert("Please login to access your WistList");
+     window.alert("Please login first to access your WistList.");
      window.location = "./page/login.html"; // check if user has logged in or not                      
    }
    var req = JSON.stringify({
@@ -164,56 +164,13 @@
          // successful callback
          function(res) {
           var result = JSON.parse(res);
-          if (result.result === "SUCCESS for Adding into favorite list") {
+          if (result.result === "SUCCESS for Adding into favorite list" ||
+              result.result === "SUCCESS for Deleting") {
             li.dataset.favorite = favorite;
             fav.className = favorite ? 'fa fa-heart' : 'fa fa-heart-o';
           }
      });
   }
-
-//  function addToFavorite() {
-//// 标记成 favorite : true;
-//// 调用一个 ajax PUT → PlaceFavorite
-//    var halfstar = $('fav-icon-' + placeid);
-//    var favorite = li.dataset.favorite;
-//      var url = './favorite';
-//      var req = JSON.stringify({
-//          user_id: user_id,
-//          favorite: [place_id]
-//      });
-//      ajax('POST', url, req,
-//              // successful callback
-//              function(res) {
-//                  var result = JSON.parse(res);
-//                  if (result.result === 'SUCCESS') {
-//                      li.dataset.favorite = favorite;
-//                      favIcon.className = 'fa fa-heart';
-//                  }
-//              });
-//
-//  }
-//
-//  function removeFavorite() {
-//// 标记成 favorite : false;
-//// 调用一个 ajax DELETE → PlaceFavorite
-//    var favIcon = $('fav-icon-' + placeid);
-//    var favorite = li.dataset.favorite;
-//      var url = './favorite';
-//      var req = JSON.stringify({
-//          user_id: user_id,
-//          favorite: [place_id]
-//      });
-//      ajax('DELETE', url, req,
-//              // successful callback
-//              function(res) {
-//                  var result = JSON.parse(res);
-//                  if (result.result === 'SUCCESS') {
-//                      li.dataset.favorite = favorite;
-//                      favIcon.className = 'fa fa-heart-o';
-//                  }
-//              });
-//
-//  }
 
   /**
    * return the dom node of the given id
