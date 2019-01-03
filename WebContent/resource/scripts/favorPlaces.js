@@ -1,4 +1,4 @@
-var user_id = '1111';
+var user_id = window.localStorage.getItem("user_id");
 var placeList = [];
 var map;
 var infowindow;
@@ -58,10 +58,11 @@ function ajax(method, url, data, callback, errorHandler) {
 }
 
 function loadFavoritePlaces() {
-    var url = 'http://localhost:8080/travelPlanner/favorite';
+    // var url = 'http://localhost:8080/TravelPlanner/favorite';
+	var url = "../favorite";
     var params = 'user_id=' + user_id;
     var req = JSON.stringify({});
-
+    
     // make AJAX call
     ajax('GET', url + '?' + params, req, function(res) {
         var places = JSON.parse(res);

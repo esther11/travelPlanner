@@ -20,7 +20,7 @@ body {
 	height: 200px;
     line-height: 10;
     text-align: center;
-    margin-top: 60px;
+    margin-top: 0px;
 }
 
 .middle p {
@@ -47,17 +47,23 @@ body {
 }
 
 .submit {
-position: relative;
+	z-index: 1;
+	position: relative;
+	width: 10%;
 	color: #000000;
+	top: -20px;
+	text-align: center;
+	left: 45%;
 }
 
 #place-list {
 	background: #F2EBD9;
 	color: #624630;
 	list-style: none;
-	margin-left: 180px;
 	min-height: 250px;
 	padding: 10px;
+	width: 100%;
+	margin-bottom: 0px;
 }
 
 #place-list .notice {
