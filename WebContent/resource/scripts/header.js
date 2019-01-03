@@ -11,6 +11,7 @@
 		var search = $("header-search");
 		var login = $("login/logout-link");
 		var welcome = $("welcome-msg");
+		var signupBtn = $("Signup-link")
 
 		if (window.localStorage.getItem("status") === "loggedIn") {
 			user_id = window.localStorage.getItem("user_id");
@@ -18,6 +19,7 @@
 			login.innerHTML = "Logout";
 			login.addEventListener("click", logOut);
 			welcome.innerHTML = "Welcome, " + username;
+			hideElement(signupBtn);
 		} else {
 			login.innerHTML = "Login";
 			login.addEventListener("click", logIn);
@@ -28,6 +30,10 @@
 		search.addEventListener("click", searchPage);
 
 	}
+	
+	function hideElement(element) {
+        element.style.display = 'none';
+    }
 
 	function $(id) {
 		return document.getElementById(id);

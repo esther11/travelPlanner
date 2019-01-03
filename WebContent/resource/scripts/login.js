@@ -19,13 +19,13 @@
   }
 
   function successLogin(response) {
-    response = JSON.parse(response);
+    var response = JSON.parse(response);
     if (response.result === "SUCCESS") {
       window.localStorage.setItem("status", "loggedIn");
       window.localStorage.setItem("user_id", response["user_id"]);
-      window.localStorage.setItem("username", response["name"]);
+      window.localStorage.setItem("username", response["user name"]);
       
-      $('welcome-msg').innerText = "Welcome, " + response["name"] + "!";
+      $('welcome-msg').innerText = "Welcome, " + response["user name"] + "!";
       $("welcome-msg").classList.remove("hidden");
         setTimeout(redirect, 2000);
     }
