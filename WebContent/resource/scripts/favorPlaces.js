@@ -186,6 +186,7 @@ function displayMarkerWithTimeout(i, timeout) {
 		var marker = new google.maps.Marker({
 			position: {lat: place.lat, lng: place.lon},
 			map: map,
+			label: "" + (i + 1),
 			title: place.name,
 			animation: google.maps.Animation.DROP
 		});
