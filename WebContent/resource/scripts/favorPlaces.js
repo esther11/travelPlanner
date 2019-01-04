@@ -76,7 +76,6 @@ function loadFavoritePlaces() {
             placeList = places;
             // by setting last argument as true, we use Google recommended routes
             renderRoutes(directionsService, directionsDisplay, true);
-            console.log(placeList);
         }
     }, function() {
         alert('Cannot load favorite places.');
@@ -85,8 +84,14 @@ function loadFavoritePlaces() {
 
 // Render routes according to place list
 function renderRoutes(directionsService, directionsDisplay, optimizeWaypoints) {
-	if (placeList.length < 1) return;
-	if (placeList.length == 1) return renderPlacePanel();
+	if (placeList.length < 1) {
+		return;
+	}
+	if (placeList.length == 1) {
+		displayMarkerWithTimeout(0, 100);
+		renderPlacePanel();
+		return;
+	}
 
 	var waypoints = [];
 	for (var i = 1; i < placeList.length - 1; i++) {
@@ -144,13 +149,12 @@ function renderPlacePanel() {
 		// create a list item and set attributes
 		var li = document.createElement('li');
 		li.setAttribute("class", "place");
-		li.setAttribute("id", placeId);
-		// bind list item with data in placeList
-		li.setAttribute("placelistindex", i);
+		li.dataset.place_id = placeId;
 
 		// add content in the list item
 		var icon = li.appendChild(document.createElement('img'));
 		icon.setAttribute("src", placeIcon);
+		icon.setAttribute("class", "place-icon");
 		var section = li.appendChild(document.createElement('div'));
 		var title = section.appendChild(document.createElement('p'));
 		title.innerHTML = placeName;
@@ -158,6 +162,10 @@ function renderPlacePanel() {
 		var address = section.appendChild(document.createElement('p'));
 		address.innerHTML = placeAddress;
 		address.setAttribute("class", "place-address");
+		var dustbin = li.appendChild(document.createElement('img'));
+		dustbin.setAttribute("src", "../resource/images/dustbin.png");
+		dustbin.setAttribute("class", "place-dustbin");
+		dustbin.setAttribute("onclick", "deletePlace(this)");
 
 		ul.appendChild(li);
 	}
@@ -182,6 +190,7 @@ function displayMarkerWithTimeout(i, timeout) {
 			animation: google.maps.Animation.DROP
 		});
 
+		// bind marker to data in placeList
 		place.marker = marker;
 
 		marker.addListener('mouseover', function() {
@@ -209,15 +218,18 @@ function clearMarkers() {
 // Update placeList order according to the order of places in place panel, and re-render routes
 function updateRoutes() {
 	var listItems = document.getElementsByClassName('place');
-	console.log(listItems);
 	if (listItems.length <= 1) return;
 
 	// update placeList order
 	var newPlaceList = [];
 	for (var i = 0; i < listItems.length; i++) {
-		newPlaceList.push(placeList[listItems[i].getAttribute('placelistindex')]);
-		// re-bind list item with data in placeList
-		listItems[i].setAttribute("placelistindex", i);
+		var placeId = listItems[i].dataset.place_id;
+		for (var j = 0; j < placeList.length; j++) {
+			if (placeList[j].place_id === placeId) {
+				newPlaceList.push(placeList[j]);
+				break;
+			}
+		}
 	}
 	placeList = newPlaceList;
 	
@@ -234,3 +246,51 @@ function closeNav() {
     document.getElementById("panel").style.marginLeft = "-310px";
 }
 
+// Delete place from placeList and DB, remove place card and marker, re-render routes
+function deletePlace(imgObj) {
+	var li = imgObj.parentElement;
+	var place = getPlaceObj(li.dataset.place_id);
+	
+	// delete place from DB
+	if (user_id === null) {
+		alert("Please login first to modify your WishList.");
+		window.location = "login.html";
+	}
+	var url = "../favorite";
+    var req = JSON.stringify({
+    	user_id: user_id,
+    	favorite: [place.place_id]
+    });
+    ajax('DELETE', url, req, function(res) {
+        if (JSON.parse(res).result !== "SUCCESS for Deleting") {
+        	alert('Favorite place was not deleted from DB.');
+        }
+    }, function() {
+        alert('Cannot delete favorite places.');
+    });
+	
+	// remove place card and marker
+	li.parentNode.removeChild(li);	
+	place.marker.setMap(null);
+	
+	// remove place from placeList
+	var idx = placeList.indexOf(place);
+	placeList.splice(idx, 1);
+	
+	// re-render routes
+	if (placeList.length === 0) {
+		directionsDisplay.setMap(null);
+	} else if (placeList.length === 1) {
+		directionsDisplay.setMap(null);
+	} else {
+		renderRoutes(directionsService, directionsDisplay, false);
+	}
+}
+
+// Helper function, search and return place object in placeList by specified placeId
+function getPlaceObj(placeId) {
+	for (var i = 0; i < placeList.length; i++) {
+		if (placeList[i].place_id === placeId) return placeList[i];
+	}
+	return null;
+}
