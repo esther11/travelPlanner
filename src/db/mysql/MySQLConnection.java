@@ -304,8 +304,8 @@ public class MySQLConnection implements DBConnection {
 			ps.setDouble(3, place.getRating());
 			ps.setString(4, place.getAddress());
 			ps.setString(5, place.getIcon());
-			ps.setDouble(6, place.getLon());
-			ps.setDouble(7, place.getLat());
+			ps.setDouble(6, place.getLat());
+			ps.setDouble(7, place.getLon());
 			ps.execute();
 
 			if (place.getTypes() != null) {
