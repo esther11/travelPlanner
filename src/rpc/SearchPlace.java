@@ -52,18 +52,24 @@ public class SearchPlace extends HttpServlet {
 		// optional from session, if session exists we could get user_id from session instead of request body
 		// String userId = session.getAttribute("user_id").toString(); 
 		String userId = request.getParameter("user_id");
+		String city = request.getParameter("city");
 		String placeName = request.getParameter("placeName");
-		String placeType = request.getParameter("placeType");
 		
         DBConnection connection = DBConnectionFactory.getConnection();
         try {
-        		List<Place> places = connection.searchPlaces(placeName, placeType);
-        		// Check if there is userId existed
-        		List<String> favoritePlaceIds = new ArrayList<>();
-        		if (userId != null && userId.length() != 0) {
-        			favoritePlaceIds = connection.getFavoritePlaceIds(userId);
-        		}        		
-        		
+	    		List<String> favoritePlaceIds = new ArrayList<>();
+	    		// Check if there is userId existed
+	    		if (userId != null && userId.length() != 0) {
+	    			favoritePlaceIds = connection.getFavoritePlaceIds(userId);
+	    			// Remove user's favorites which are not in current city
+	    			// Current out Web Service is with the same city
+	    			if (favoritePlaceIds != null) {
+	    				connection.deleteOtherCityFavoritePlaces(userId, city);
+	    			}
+	    		}
+        	
+        		List<Place> places = connection.searchPlaces(placeName, city);
+          		      		
         		JSONArray array = new JSONArray();
         		for (Place place : places) {
         			JSONObject obj = place.toJSONObject();

@@ -16,9 +16,18 @@ public interface DBConnection {
 	 * 
 	 * @param userId
 	 * @param placeIds
+	 * @param city
 	 */
-	public void setFavoritePlaces(String userId, List<String> placeIds);
+	public void setFavoritePlaces(String userId, List<String> placeIds, String city);
 
+	/**
+	 * Delete the Other City favorite places for a user.
+	 * 
+	 * @param userId
+	 * @param city
+	 */
+	public void deleteOtherCityFavoritePlaces(String userId, String city);
+	
 	/**
 	 * Delete the favorite places for a user.
 	 * 
@@ -32,8 +41,9 @@ public interface DBConnection {
 	 * 
 	 * @param userId
 	 * @param placeIds
+	 * @param city
 	 */
-	public void updateFavoritePlaces(String userId, List<String> placeIds);
+	public void updateFavoritePlaces(String userId, List<String> placeIds, String city);
 
 	/**
 	 * Get the favorite place ids for a user.
@@ -74,10 +84,11 @@ public interface DBConnection {
 	 * @param userId
 	 * @param placeId
 	 * @param order
+	 * @param city
 	 * @return void
 	 */
 
-	public void updateOrder(String userId, String placeId, int order);
+	public void updateOrder(String userId, String placeId, int order, String city);
 	
 	/**
 	 * (debug function) check if there's any duplicate order after order update 

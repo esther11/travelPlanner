@@ -42,7 +42,7 @@ public class MySQLConnection implements DBConnection {
 	}
 
 	@Override
-	public void setFavoritePlaces(String userId, List<String> placeIds) {
+	public void setFavoritePlaces(String userId, List<String> placeIds, String city) {
 		// TODO Auto-generated method stub
 		if (conn == null) {
 			System.err.println("DB connection failed");
@@ -62,7 +62,7 @@ public class MySQLConnection implements DBConnection {
 			}
 
 			for (String placeId : placeIds) {
-				updateOrder(userId, placeId, ++largestOrder);
+				updateOrder(userId, placeId, ++largestOrder, city);
 			}
 
 		} catch (Exception e) {
@@ -70,6 +70,26 @@ public class MySQLConnection implements DBConnection {
 		}
 	}
 
+	@Override
+	public void deleteOtherCityFavoritePlaces(String userId, String city) {
+		// TODO Auto-generated method stub
+		if (conn == null) {
+			System.err.println("DB connection failed");
+			return;
+		}
+		
+		try {
+			String sql = "DELETE FROM favorites WHERE user_id = ? AND city <> ?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			ps.setString(2, city);
+			ps.execute();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void unsetFavoritePlaces(String userId, List<String> placeIds) {
 		// TODO Auto-generated method stub
@@ -94,7 +114,7 @@ public class MySQLConnection implements DBConnection {
 	}
 
 	@Override
-	public void updateFavoritePlaces(String userId, List<String> placeIds) {
+	public void updateFavoritePlaces(String userId, List<String> placeIds, String city) {
 		// TODO Auto-generated method stub
 		if (conn == null) {
 			System.err.println("DB connection failed");
@@ -104,7 +124,7 @@ public class MySQLConnection implements DBConnection {
 		int largestOrder = 0;
 		try {
 			for (String placeId : placeIds) {
-				updateOrder(userId, placeId, ++largestOrder);
+				updateOrder(userId, placeId, ++largestOrder, city);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,6 +184,7 @@ public class MySQLConnection implements DBConnection {
 					builder.setLon(rs.getDouble("longitude"));
 					builder.setTypes(getTypes(rs.getString("place_id")));
 					builder.setPhotos(getPhotos(rs.getString("place_id")));
+					builder.setCity(rs.getString("city"));
 
 					favoritePlaces.add(builder.build());
 				}
@@ -221,7 +242,7 @@ public class MySQLConnection implements DBConnection {
 	}
 
 	@Override
-	public void updateOrder(String userId, String placeId, int order) {
+	public void updateOrder(String userId, String placeId, int order, String city) {
 		// TODO Auto-generated method stub
 		if (conn == null) {
 			System.err.println("DB connection failed");
@@ -244,6 +265,7 @@ public class MySQLConnection implements DBConnection {
 					stmt.setInt(1, order);
 					stmt.setString(2, userId);
 					stmt.setString(3, placeId);
+					stmt.setString(4, city);
 					stmt.execute();
 					stmt.close();
 				} catch (Exception e) {
@@ -251,11 +273,12 @@ public class MySQLConnection implements DBConnection {
 				}
 			} else { // it it is not in the table yet, insert the column with new order
 				try {
-					sql = "INSERT IGNORE INTO favorites(user_id, place_id, access_order) VALUES (? ,? ,?)";
+					sql = "INSERT IGNORE INTO favorites(user_id, place_id, access_order, city) VALUES (? ,? ,?, ?)";
 					PreparedStatement stmt = conn.prepareStatement(sql);
 					stmt.setString(1, userId);
 					stmt.setString(2, placeId);
 					stmt.setInt(3, order);
+					stmt.setString(4, city);
 					stmt.execute();
 					stmt.close();
 				} catch (Exception e) {
@@ -276,10 +299,10 @@ public class MySQLConnection implements DBConnection {
 	}
 
 	@Override
-	public List<Place> searchPlaces(String placeName, String placeType) {
+	public List<Place> searchPlaces(String placeName, String city) {
 		// TODO Auto-generated method stub
 		GoogleMapsSearchPlaceAPI googleMapsSearchPlaceAPI = new GoogleMapsSearchPlaceAPI();
-		List<Place> places = googleMapsSearchPlaceAPI.search(placeName, placeType);
+		List<Place> places = googleMapsSearchPlaceAPI.search(placeName, city);
 
 		for (Place place : places) {
 			savePlace(place);
@@ -297,7 +320,7 @@ public class MySQLConnection implements DBConnection {
 		}
 
 		try {
-			String sql = "INSERT IGNORE INTO places VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT IGNORE INTO places VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, place.getPlaceId());
 			ps.setString(2, place.getName());
@@ -306,6 +329,7 @@ public class MySQLConnection implements DBConnection {
 			ps.setString(5, place.getIcon());
 			ps.setDouble(6, place.getLat());
 			ps.setDouble(7, place.getLon());
+			ps.setString(8, place.getCity());
 			ps.execute();
 
 			if (place.getTypes() != null) {

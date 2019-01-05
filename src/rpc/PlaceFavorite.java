@@ -81,12 +81,13 @@ public class PlaceFavorite extends HttpServlet {
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
+			String city = input.getString("city");
 			JSONArray array = input.getJSONArray("favorite");
 			List<String> placeIds = new ArrayList<>();
 			for (int i = 0; i < array.length(); ++i) {
 				placeIds.add(array.getString(i));
 			}
-			connection.updateFavoritePlaces(userId, placeIds);
+			connection.updateFavoritePlaces(userId, placeIds, city);
 			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS for Updating"));
 
 		} catch (Exception e) {
@@ -110,13 +111,13 @@ public class PlaceFavorite extends HttpServlet {
 		try {
 			JSONObject input = RpcHelper.readJsonObject(request);
 			String userId = input.getString("user_id");
-
+			String city = input.getString("city");
 			JSONArray array = input.getJSONArray("favorite");
 			List<String> placeIds = new ArrayList<>();
 			for (int i = 0; i < array.length(); ++i) {
 				placeIds.add(array.getString(i));
 			}
-			connection.setFavoritePlaces(userId, placeIds);
+			connection.setFavoritePlaces(userId, placeIds, city);
 			RpcHelper.writeJsonObject(response, new JSONObject().put("result", "SUCCESS for Adding into favorite list"));
 
 		} catch (Exception e) {

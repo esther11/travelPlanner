@@ -173,6 +173,7 @@
    }
    var req = JSON.stringify({
          user_id: user_id,
+         city: cityName,
          favorite: [place_id]
      });
      var method = favorite ? "PUT" : "DELETE";
