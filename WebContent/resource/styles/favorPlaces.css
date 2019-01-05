@@ -153,7 +153,7 @@ body {
 	background: #ffd700;
 	height: 80px;
 	margin-top: 15px;
-	padding-left: 5px;
+	padding-left: 10px;
 	padding-right: 5px;
 	display: flex;
 	align-items: center;
@@ -163,6 +163,7 @@ body {
 	width: 50px;
 	height: 50px;
 	flex: 0;
+	left: 50px;
 }
 
 .place div {
@@ -180,10 +181,14 @@ body {
 	font-weight: bold;
 	font-size: 15px;
 	flex: 0.5;
+	padding-left: 5px;
+	padding-top: 8px;
 }
 
 .place-address {
 	flex: 0.5;
+	padding-left: 5px;
+	padding-top: 8px;
 }
 
 .place-dustbin {
