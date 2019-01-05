@@ -32,7 +32,7 @@
     	cityName = $("cityName").value;
     }
 
-    let url = "../search?user_id=" + user_id + "&city=" + cityName + "&placeName=" + placeName;
+    let url = "./search?user_id=" + user_id + "&city=" + cityName + "&placeName=" + placeName;
     let req = JSON.stringify({});
     ajax("GET", url, req, successSearch, showError);
   }
@@ -165,7 +165,7 @@
    let fav = $('fav-icon-' + place_id);
    let favorite = li.dataset.favorite !== "true";
 
-   var url = "../favorite";
+   var url = "./favorite";
 
    if (user_id === null) {
      window.alert("Please login first to access your WistList.");
