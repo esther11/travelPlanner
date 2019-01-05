@@ -169,7 +169,7 @@
 
    if (user_id === null) {
      window.alert("Please login first to access your WistList.");
-     window.location = "login.html"; // check if user has logged in or not                      
+     window.location = "./page/login.html"; // check if user has logged in or not                      
    }
    var req = JSON.stringify({
          user_id: user_id,
