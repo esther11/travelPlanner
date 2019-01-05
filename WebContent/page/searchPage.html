@@ -13,23 +13,24 @@
 	  <form>
 	    <p class="title">Search Your Destination</p>
 	    <div class="TextField">
+	       <input type="text" name="inputCity" title="Search" 
+	       class="searchinput" id="cityName" value="City Name" 
+	       onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='City Name';this.style.color='#b8c4ce';if(this.value!='City Name')this.style.color='#000000'" 
+	       onfocus="if(this.value=='City Name')value='';this.style.color='#000000'" />
 	       <input type="text" name="inputName" title="Search" 
 	       class="searchinput" id="placeName" value="Place Name" 
 	       onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Name';this.style.color='#b8c4ce';if(this.value!='Place Name')this.style.color='#000000'" 
-	       onfocus="if(this.value=='Place Name')value='';this.style.color='#000000'" />
-	       <input type="text" name="inputType" title="Search" 
-	       class="searchinput" id="placeType" value="Place Type" 
-	       onkeydown="if (event.keyCode==13) {}" onblur="if(this.value=='')value='Place Type';this.style.color='#b8c4ce';if(this.value!='Place Type')this.style.color='#000000'" 
-	       onfocus="if(this.value=='Place Type')value='';this.style.color='#000000'" />   
+	       onfocus="if(this.value=='Place Name')value='';this.style.color='#000000'" />   
 	    </div>
 	  </form>
+	  <p id="search-error" class="hidden">Please enter your city destination.<p>
 	  <input class="submit" id="search" type="submit" value="Search" />	 
 	</div>
 	<ul id="place-list">
-		<li class="place">
+<!-- 		<li class="place">
 		  <img alt="place image" src="http://cn.ccyp.com/media/topic/201411/20141113162006053.jpg" />
 		  <div>
-		    <!-- <a class="place-name" href="#">Disneyland</a> Work if there's a url for the place-->
+		    <a class="place-name" href="#">Disneyland</a> Work if there's a url for the place
 		    <p class="place-name">Disneyland<p>
 		    <p class="place-category">Park</p>
 		    <div class="rating">
@@ -44,7 +45,7 @@
 		  <div class="fav-link">
 		    <i class="fa fa-heart-o"></i>
 		  </div>
-		</li>
+		</li> -->
 	</ul>
 	<div id="includefooter"></div>
 	<script src="../resource/scripts/searchPage.js"></script>

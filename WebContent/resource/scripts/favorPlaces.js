@@ -9,6 +9,9 @@ function initialize() {
 	// Register event listeners
 	document.getElementById("panel-openbtn").addEventListener('click', openNav);
 	document.getElementById("panel-closebtn").addEventListener('click', closeNav);
+	
+	// display the name of current city
+	document.getElementById("logo").innerHTML = window.localStorage.getItem("city");
 
 	// Register dragula container
 	var drake = dragula([document.getElementById('place-list')]);
