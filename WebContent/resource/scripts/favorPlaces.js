@@ -143,7 +143,7 @@ function renderPlacePanel() {
 	for (var i = 0; i < placeList.length; i++) {
 		var placeName = placeList[i].name;
 		var placeId = placeList[i].place_id;
-		var placeIcon = placeList[i].icon;
+		var placeIcon = placeList[i].photos[0];
 		var placeAddress = placeList[i].address;
 
 		// create a list item and set attributes

@@ -51,7 +51,7 @@ public class MySQLTableCreation {
 
 			sql = "CREATE TABLE photos ("
 					+ "place_id VARCHAR(255) NOT NULL,"
-					+ "photo VARCHAR(255),"
+					+ "photo VARCHAR(700),"
 					+ "PRIMARY KEY (place_id, photo),"
 					+ "FOREIGN KEY (place_id) REFERENCES places(place_id)"
 					+ ")";
