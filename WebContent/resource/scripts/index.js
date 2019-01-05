@@ -10,6 +10,7 @@
     $("search").addEventListener("click", search);
     if (window.localStorage.getItem("status") === "loggedIn") {
         user_id = window.localStorage.getItem("user_id");
+        cityName = window.localStorage.getItem("city");
      }
   }
   
@@ -19,17 +20,17 @@
     	// if user enters nothing
     	$("search-error").classList.remove("hidden");
     	return;
-    } else if (cityName !== null && $("cityName").value !== cityName){
+    } else if (cityName !== null && $("cityName").value.toUpperCase() !== cityName){
     	// if user has searched another city before
     	if (window.confirm("Changing city will delete the previous search results. Change anyway?")) {
         	$("search-error").classList.add("hidden");
-        	cityName = $("cityName").value;
+        	cityName = $("cityName").value.toUpperCase();
     	} else {
     		return;
     	}
     } else {
     	$("search-error").classList.add("hidden");
-    	cityName = $("cityName").value;
+    	cityName = $("cityName").value.toUpperCase();
     }
 
     let url = "./search?user_id=" + user_id + "&city=" + cityName + "&placeName=" + placeName;
@@ -173,6 +174,7 @@
    }
    var req = JSON.stringify({
          user_id: user_id,
+         city: cityName,
          favorite: [place_id]
      });
      var method = favorite ? "PUT" : "DELETE";
