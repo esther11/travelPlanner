@@ -5,19 +5,24 @@ var infowindow;
 var directionsService;
 var directionsDisplay;
 
+// First, fetch data of user's favorite places from DB
+loadFavoritePlaces()
+
 function initialize() {
 	// Register event listeners
 	document.getElementById("panel-openbtn").addEventListener('click', openNav);
 	document.getElementById("panel-closebtn").addEventListener('click', closeNav);
+	
+	// display the name of current city
+	document.getElementById("logo").innerHTML = window.localStorage.getItem("city");
 
 	// Register dragula container
 	var drake = dragula([document.getElementById('place-list')]);
 	drake.on('dragend', updateRoutes);
-
 	// Initialize map and infowindow
     var mapOptions = {
         // Location of Los Angeles
-        center: new google.maps.LatLng(34.067727, -118.211488),
+        center: new google.maps.LatLng(placeList[0].lat, placeList[0].lon),
         zoom: 10,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -32,9 +37,9 @@ function initialize() {
         map: map,
         suppressMarkers: true
     });
-
-	// Fetch data of user's favorite places from DB
-	loadFavoritePlaces();
+	
+	// by setting last argument as true, we use Google recommended routes
+    renderRoutes(directionsService, directionsDisplay, true);
 }
 
 // AJAX helper
@@ -72,10 +77,10 @@ function loadFavoritePlaces() {
         var places = JSON.parse(res);
         if (!places || places.length === 0) {
             alert('No favorite places added, turn to SEARCH page to add your favorite places');
+            window.location = "searchPage.html";
         } else {
             placeList = places;
-            // by setting last argument as true, we use Google recommended routes
-            renderRoutes(directionsService, directionsDisplay, true);
+ 
         }
     }, function() {
         alert('Cannot load favorite places.');
@@ -143,7 +148,7 @@ function renderPlacePanel() {
 	for (var i = 0; i < placeList.length; i++) {
 		var placeName = placeList[i].name;
 		var placeId = placeList[i].place_id;
-		var placeIcon = placeList[i].icon;
+		var placeIcon = placeList[i].photos[0];
 		var placeAddress = placeList[i].address;
 
 		// create a list item and set attributes
@@ -186,6 +191,7 @@ function displayMarkerWithTimeout(i, timeout) {
 		var marker = new google.maps.Marker({
 			position: {lat: place.lat, lng: place.lon},
 			map: map,
+			label: "" + (i + 1),
 			title: place.name,
 			animation: google.maps.Animation.DROP
 		});

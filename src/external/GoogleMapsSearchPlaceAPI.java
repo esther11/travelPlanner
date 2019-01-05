@@ -18,10 +18,8 @@ import entity.Place;
 import entity.Place.PlaceBuilder;
 
 public class GoogleMapsSearchPlaceAPI {
-	private static final String API_KEY = "Please find this in the group docs";
-	private static final String LATITUDE = "34.067727";
-	private static final String LONGITUDE = "-118.401488";
-	private static final String DEFAULT_TYPE = "Los Angeles Downtown";
+	private static final String API_KEY = "Please find this in group docs";
+	private static final String DEFAULT_TYPE = "Downtown";
 	private static final String URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 	private static final String RADIUS = "50000"; // unit is meter
 	
@@ -34,8 +32,10 @@ public class GoogleMapsSearchPlaceAPI {
 	private static final String TYPES = "types";
 	private static final String PHOTOS = "photos";
 	private static final String PHOTOREFERENCE = "photo_reference";
+	// Google Place Photo API URL
 	private static final String PHOTOREQUEST = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
-
+	
+	
 	// https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=PHOTOREFERENCE&key=YOUR_API_KEY
 	private Set<String> getPhotos(JSONArray array) throws JSONException {
 		Set<String> photos = new HashSet<>();
@@ -63,7 +63,7 @@ public class GoogleMapsSearchPlaceAPI {
 	}
 	
 	// Convert JSONArray to a list of places.
-	private List<Place> getPlaceList(JSONArray places) throws JSONException {
+	private List<Place> getPlaceList(JSONArray places, String city) throws JSONException {
 		List<Place> placeList = new ArrayList<>();	
 		
 		for (int i = 0; i < places.length(); ++i) {
@@ -86,6 +86,7 @@ public class GoogleMapsSearchPlaceAPI {
 			JSONObject obj = place.getJSONObject(GEOMETRY).getJSONObject("location");
 			builder.setLat(obj.getDouble("lat"));
 			builder.setLon(obj.getDouble("lng"));
+			builder.setCity(city);
 			
 			placeList.add(builder.build());
 		}
@@ -93,21 +94,22 @@ public class GoogleMapsSearchPlaceAPI {
 	}
 	
 	
-	public List<Place> search(String placeName, String placeType) {
-		if (placeName.equals("") && placeType.equals("")) {
-			placeType = DEFAULT_TYPE; // Current is "Los Angeles Downtown"
+	public List<Place> search(String placeName, String city) {
+		if (placeName.equals("")) {
+			placeName = DEFAULT_TYPE; // Current is "Downtown"
 		}
 		try {
-			placeType = URLEncoder.encode(placeType, "UTF-8");
+			placeName = URLEncoder.encode(placeName, "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
 		
-		// https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=34.067727,-118.401488&radius=60000&keyword=hollywood&key=YOUR_API_KEY
+		GoogleMapsGeocodingAPI geocodeapi = new GoogleMapsGeocodingAPI();
+		double[] geocode = geocodeapi.search(city, API_KEY);
 		
 		// Process input string first to remove extra spaces and convert space to %20
-		String keyword = processString(placeName + placeType);
-		String query = String.format("location=%s,%s&radius=%s&keyword=%s&key=%s", LATITUDE, LONGITUDE, RADIUS, keyword, API_KEY);
+		String keyword = processString(placeName);
+		String query = String.format("location=%s,%s&radius=%s&keyword=%s&key=%s", geocode[0], geocode[1], RADIUS, keyword, API_KEY);
 
 	    
 		try {
@@ -130,12 +132,11 @@ public class GoogleMapsSearchPlaceAPI {
 			JSONObject obj = new JSONObject(response.toString());
 			if (obj != null) {
 				JSONArray places = obj.getJSONArray("results");
-				return getPlaceList(places);
+				return getPlaceList(places, city);
 			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//return new JSONArray();
 		return new ArrayList<>();
     }
 	
@@ -177,10 +178,8 @@ public class GoogleMapsSearchPlaceAPI {
 
 
 	// Main entry for sample GoogleMaps API requests.
-
 	public static void main(String[] args) {
 		GoogleMapsSearchPlaceAPI googleApi = new GoogleMapsSearchPlaceAPI();
-		googleApi.queryAPI("beverly hills","");
-		// tmApi.queryAPI(37.38, -122.08);
+		googleApi.queryAPI("lamborghini dealer","san francisco");
 	}
 }

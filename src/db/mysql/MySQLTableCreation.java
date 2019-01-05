@@ -45,13 +45,14 @@ public class MySQLTableCreation {
 					+ "icon VARCHAR(255),"
 					+ "latitude FLOAT,"
 					+ "longitude FLOAT,"
+					+ "city VARCHAR(255),"
 					+ "PRIMARY KEY (place_id)"
 					+ ")";
 			stmt.executeUpdate(sql);
 
 			sql = "CREATE TABLE photos ("
 					+ "place_id VARCHAR(255) NOT NULL,"
-					+ "photo VARCHAR(255),"
+					+ "photo VARCHAR(700),"
 					+ "PRIMARY KEY (place_id, photo),"
 					+ "FOREIGN KEY (place_id) REFERENCES places(place_id)"
 					+ ")";
@@ -77,6 +78,7 @@ public class MySQLTableCreation {
 					+ "user_id VARCHAR(255) NOT NULL,"
 					+ "place_id VARCHAR(255) NOT NULL,"
 					+ "access_order INT,"
+					+ "city VARCHAR(255),"
 					+ "PRIMARY KEY (user_id, place_id),"
 					+ "FOREIGN KEY (user_id) REFERENCES users(user_id),"
 					+ "FOREIGN KEY (place_id) REFERENCES places(place_id)"

@@ -26,7 +26,7 @@ body {
           no-repeat 50% 50%;
   background-size: 100%;
   display: flex;
-  height: 270px;
+  height: 240px;
 }
 
 .container>header p {
@@ -146,22 +146,24 @@ body {
  
 #place-list {
 	touch-action: none;
+	padding-left: 15px;
 }
  
 .place {
 	background: #ffd700;
-	height: 60px;
+	height: 80px;
 	margin-top: 15px;
-	padding-left: 5px;
+	padding-left: 10px;
 	padding-right: 5px;
 	display: flex;
-	align-items: center;	
+	align-items: center;
 }
 
 .place-icon {
 	width: 50px;
 	height: 50px;
 	flex: 0;
+	left: 50px;
 }
 
 .place div {
@@ -179,10 +181,14 @@ body {
 	font-weight: bold;
 	font-size: 15px;
 	flex: 0.5;
+	padding-left: 5px;
+	padding-top: 8px;
 }
 
 .place-address {
 	flex: 0.5;
+	padding-left: 5px;
+	padding-top: 8px;
 }
 
 .place-dustbin {

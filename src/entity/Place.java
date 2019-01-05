@@ -16,6 +16,7 @@ public class Place {
 	private Double lat;
 	private Set<String> types;
 	private Set<String> photos;
+	private String city;
 	
 	// builder pattern
 	private Place(PlaceBuilder builder) {
@@ -28,6 +29,7 @@ public class Place {
 		this.lat = builder.lat;
 		this.types = builder.types;
 		this.photos = builder.photos;
+		this.city = builder.city;
 	}
 	
 	public JSONObject toJSONObject() {
@@ -42,6 +44,7 @@ public class Place {
 			obj.put("lat", lat);
 			obj.put("types", new JSONArray(types));
 			obj.put("photos", new JSONArray(photos));
+			obj.put("city", city);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -84,6 +87,10 @@ public class Place {
 		return photos;
 	}
 	
+	public String getCity() {
+		return city;
+	}
+	
 	public static class PlaceBuilder {
 		private String place_id;
 		private String name;
@@ -94,6 +101,7 @@ public class Place {
 		private Double lat;
 		private Set<String> types;
 		private Set<String> photos;
+		private String city;
 
 		public void setPlaceId(String place_id) {
 			this.place_id = place_id;
@@ -131,6 +139,10 @@ public class Place {
 			this.photos = photos;
 		}
 
+		public void setCity(String city) {
+			this.city = city;
+		}
+		
 		public Place build() {
 			return new Place(this);
 		}
