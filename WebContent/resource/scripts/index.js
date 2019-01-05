@@ -1,8 +1,9 @@
 (function() {
   "use strict";
 
-  var user_id = null; // hard-code id for testing, need sessions
-
+  var user_id = null; 
+  var cityName = null; 
+  
   window.addEventListener("load", initialize);
 
   function initialize() {
@@ -14,9 +15,24 @@
   
   function search() {
     let placeName = $("placeName").value === "Place Name" ? "" : $("placeName").value;
-    let placeType = $("placeType").value === "Place Type" ? "" : $("placeType").value;
+    if ($("cityName").value === "City Name") {
+    	// if user enters nothing
+    	$("search-error").classList.remove("hidden");
+    	return;
+    } else if (cityName !== null && $("cityName").value !== cityName){
+    	// if user has searched another city before
+    	if (window.confirm("Changing city will delete the previous search results. Change anyway?")) {
+        	$("search-error").classList.add("hidden");
+        	cityName = $("cityName").value;
+    	} else {
+    		return;
+    	}
+    } else {
+    	$("search-error").classList.add("hidden");
+    	cityName = $("cityName").value;
+    }
 
-    let url = "./search?user_id=" + user_id + "&placeName=" + placeName + "&placeType=" + placeType;
+    let url = "./search?user_id=" + user_id + "&city=" + cityName + "&placeName=" + placeName;
     let req = JSON.stringify({});
     ajax("GET", url, req, successSearch, showError);
   }
@@ -26,7 +42,7 @@
     if (!places || places.length === 0) {
       showError("No requested places");
     } else {
-      console.log(places[0]);
+      window.localStorage.setItem("city", cityName);
       listPlaces(places);
     }
   }

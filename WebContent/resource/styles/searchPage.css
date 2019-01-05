@@ -1,26 +1,25 @@
 body {
-  background: rgba(0,0,0,0);
-  color: #333333;
-  font-family: 'Charm';
-  font-weight: 300;
-  font-size: 15px;
+	background: rgba(0, 0, 0, 0);
+	color: #333333;
+	font-family: 'Charm';
+	font-weight: 300;
+	font-size: 15px;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-.middle{
+.middle {
 	width: 100%;
 	height: 300px;
 }
 
-
 .middle form {
 	height: 200px;
-    line-height: 10;
-    text-align: center;
-    margin-top: 0px;
+	line-height: 10;
+	text-align: center;
+	margin-top: 0px;
 }
 
 .middle p {
@@ -29,20 +28,24 @@ body {
 	margin-bottom: 50px;
 }
 
-.title{
-    font-size: 20px;
+.title {
+	font-size: 20px;
 }
 
-.TextField{
+.hidden {
+	display: none;
+}
+
+.TextField {
 	position: relative;
 	margin-top: 30px;
 }
 
-.TextField #placeName{
+.TextField #placeName {
 	color: #b8c4ce;
 }
 
-.TextField #placeType{
+.TextField #cityName {
 	color: #b8c4ce;
 }
 
@@ -51,9 +54,17 @@ body {
 	position: relative;
 	width: 10%;
 	color: #000000;
-	top: -20px;
 	text-align: center;
 	left: 45%;
+}
+
+#search-error { 
+	text-align: center;
+	background-color: #ffcccc;
+	width: 30%;
+	margin: auto auto;
+	color: #000000;
+	border-radius: 10px;
 }
 
 #place-list {
@@ -71,7 +82,6 @@ body {
 	padding: 60px;
 	text-align: center;
 }
-
 
 .place {
 	align-places: center;
@@ -110,16 +120,16 @@ body {
 	text-decoration: none;
 }
 */
-
 .place-name:hover {
 	text-decoration: underline;
 }
 
 .place-detail {
 	line-height: 20px;
-    padding-right: 100px;
+	padding-right: 100px;
 	text-align: center;
 }
+
 .place-address {
 	line-height: 20px;
 	padding-right: 20px;
