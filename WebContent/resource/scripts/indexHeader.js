@@ -62,6 +62,7 @@
 		window.localStorage.removeItem("user_id");
 		window.localStorage.removeItem("username");
 		window.localStorage.removeItem("city");
+		window.localStorage.removeItem("placeName");
 		window.location = "./page/searchPage.html";
 	}
 

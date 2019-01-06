@@ -3,6 +3,7 @@
 
   var user_id = null; 
   var cityName = null; 
+  var placeName = null;
   
   window.addEventListener("load", initialize);
 
@@ -11,16 +12,29 @@
     if (window.localStorage.getItem("status") === "loggedIn") {
         user_id = window.localStorage.getItem("user_id");
         cityName = window.localStorage.getItem("city");
+        placeName = window.localStorage.getItem("placeName");
+        
+        if (cityName !== null && placeName !== null) {
+            $("placeName").value = placeName;
+            $("cityName").value = cityName;
+            
+            let url = "../search?user_id=" + user_id + "&city=" + cityName + "&placeName=" + placeName;
+            let req = JSON.stringify({});
+            ajax("GET", url, req, successSearch, showError);
+        }
      }
   }
   
   function search() {
-    let placeName = $("placeName").value === "Place Name" ? "" : $("placeName").value;
+    placeName = $("placeName").value === "Place Name" ? "" : $("placeName").value.toUpperCase();
+    
+    
     if ($("cityName").value === "City Name") {
     	// if user enters nothing
     	$("search-error").classList.remove("hidden");
     	return;
-    } else if (cityName !== null && $("cityName").value.toUpperCase() !== cityName){
+    } else if (window.localStorage.getItem("status") === "loggedIn" && 
+    		cityName !== null && $("cityName").value.toUpperCase() !== cityName){
     	// if user has searched another city before
     	if (window.confirm("Changing city will delete the previous search results. Change anyway?")) {
         	$("search-error").classList.add("hidden");
@@ -44,6 +58,7 @@
       showError("No requested places");
     } else {
       window.localStorage.setItem("city", cityName);
+      window.localStorage.setItem("placeName", placeName);
       listPlaces(places);
     }
   }

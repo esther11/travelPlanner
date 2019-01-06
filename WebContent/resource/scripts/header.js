@@ -29,7 +29,6 @@
 		myplan.addEventListener("click", myPlanPage);
 		search.addEventListener("click", searchPage);
 		signup.addEventListener("click", signUpPage);
-
 	}
 	
 	function hideElement(element) {
@@ -63,6 +62,7 @@
 		window.localStorage.removeItem("user_id");
 		window.localStorage.removeItem("username");
 		window.localStorage.removeItem("city");
+		window.localStorage.removeItem("placeName");
 		window.location = "searchPage.html";
 	}
 
