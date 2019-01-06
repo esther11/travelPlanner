@@ -289,7 +289,7 @@ function openNav() {
 
 // Close side panel of the place list
 function closeNav() {
-    document.getElementById("panel").style.marginLeft = "-310px";
+    document.getElementById("panel").style.marginLeft = "-360px";
 }
 
 // Delete place from placeList and DB, remove place card and marker, re-render routes
