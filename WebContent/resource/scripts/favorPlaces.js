@@ -367,7 +367,7 @@ function addHourList(div) {
 	input.setAttribute("type", "number");
 	input.setAttribute("value", 6);
 	input.setAttribute("min", 0);
-	input.setAttribute("max", 23);
+	input.setAttribute("max", 23.5);
 	input.setAttribute("step", 0.5);
 	input.setAttribute("onkeydown", "return false");
 	input.addEventListener("change", showTotalTime);
