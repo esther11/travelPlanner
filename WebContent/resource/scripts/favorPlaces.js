@@ -6,7 +6,7 @@ var directionsService;
 var directionsDisplay;
 
 // First, fetch data of user's favorite places from DB
-loadFavoritePlaces()
+loadFavoritePlaces();
 
 function initialize() {
 	// Register event listeners
