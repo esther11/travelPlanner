@@ -10,7 +10,7 @@
   function login() {
     let email = $("email").value;
     let password = $("password").value;
-
+    
     let url = "../login";
     let obj = {user_id: email, password: password};
     let req = JSON.stringify(obj);
@@ -25,6 +25,7 @@
       window.localStorage.setItem("user_id", response["user_id"]);
       window.localStorage.setItem("username", response["user name"]);
       
+      $("login-error").classList.add("hidden");
       $('welcome-msg').innerText = "Welcome, " + response["user name"] + "!";
       $("welcome-msg").classList.remove("hidden");
         setTimeout(redirect, 2000);
