@@ -83,13 +83,13 @@ body {
   transition: margin-left 2s;
 }
 
-.column p {
+.column>p {
   text-align: center;
   position: relative;
-  top: 7px;
   color: #ffd700;
   font-size: 20px;
-  margin: 0px;
+  margin-top: 15px;
+  padding-left: 15px;
 }
 
 .column .closebtn {
@@ -166,7 +166,8 @@ body {
 	left: 50px;
 }
 
-.place div {
+.place-section {
+	position: relative;
 	height: 100%;
 	flex: 1;
 }
@@ -178,17 +179,30 @@ body {
 }
 
 .place-title {
+	position: absolute;
+	top: 0px;
 	font-weight: bold;
-	font-size: 15px;
-	flex: 0.5;
-	padding-left: 5px;
-	padding-top: 8px;
+	padding-left: 8px;
 }
 
-.place-address {
-	flex: 0.5;
-	padding-left: 5px;
-	padding-top: 8px;
+.place-time {
+	position: absolute;
+	bottom: 10px;
+	padding-left: 8px;
+}
+
+.place-time-dayinput {
+	width: 30px;
+}
+
+.place-time-hourinput {
+	width: 45px;
+}
+
+.place span {
+	font-size: 12px;
+	margin-left: 2px;
+	margin-right: 5px;
 }
 
 .place-dustbin {
