@@ -160,19 +160,59 @@ function renderPlacePanel() {
 		var icon = li.appendChild(document.createElement('img'));
 		icon.setAttribute("src", placeIcon);
 		icon.setAttribute("class", "place-icon");
+		
 		var section = li.appendChild(document.createElement('div'));
+		section.setAttribute("class", "place-section");
+		
 		var title = section.appendChild(document.createElement('p'));
 		title.innerHTML = placeName;
 		title.setAttribute("class", "place-title");
-		var address = section.appendChild(document.createElement('p'));
-		address.innerHTML = placeAddress;
-		address.setAttribute("class", "place-address");
+		
+		var timeDiv = section.appendChild(document.createElement('div'));
+		timeDiv.setAttribute("class", "place-time");
+		addDayList(timeDiv);
+		var dayText = timeDiv.appendChild(document.createElement('span'));
+		dayText.innerHTML = "Day(s)";
+		addHourList(timeDiv);
+		var hourText = timeDiv.appendChild(document.createElement('span'));
+		hourText.innerHTML = "Hour(s)";
+		
 		var dustbin = li.appendChild(document.createElement('img'));
 		dustbin.setAttribute("src", "../resource/images/dustbin.png");
 		dustbin.setAttribute("class", "place-dustbin");
 		dustbin.setAttribute("onclick", "deletePlace(this)");
 
 		ul.appendChild(li);
+	}
+	
+	showTotalTime();
+}
+
+// Calculate and show total time of user's plan
+function showTotalTime() {
+	var timeSum = 0;  // by hour
+
+	var dayInputs = document.getElementsByClassName("place-time-dayinput");
+	var hourInputs = document.getElementsByClassName("place-time-hourinput");
+	for (var i = 0; i < dayInputs.length; i++) {
+		timeSum += (parseFloat(dayInputs[i].value)) * 24;
+	}
+	for (var i = 0; i < hourInputs.length; i++) {
+		timeSum += parseFloat(hourInputs[i].value);
+	}
+
+	var days = Math.floor(timeSum / 24);
+	var hours = timeSum - days * 24;
+	var dayString = days > 1 ? " Days" : " Day";
+	var hourString = hours > 1 ? " Hours" : " Hour";
+
+	var p = document.getElementById("total-time");
+	if (timeSum > 360) {
+		p.style.color = "#FF0000";
+		p.innerHTML = "Estimated Time (" + days + dayString + " " + hours + hourString + ") is longer than 15 days, consider modify your plan.";
+	} else {
+		p.style.color = "#ffd700";
+		p.innerHTML = "Estimated Time: " + days + dayString + " " + hours + hourString;
 	}
 }
 
@@ -291,12 +331,44 @@ function deletePlace(imgObj) {
 	} else {
 		renderRoutes(directionsService, directionsDisplay, false);
 	}
+	
+	// update time
+	showTotalTime();
 }
 
-// Helper function, search and return place object in placeList by specified placeId
+/**
+ * Helper Functions
+ */
+
+// Search and return place object in placeList by specified placeId
 function getPlaceObj(placeId) {
 	for (var i = 0; i < placeList.length; i++) {
 		if (placeList[i].place_id === placeId) return placeList[i];
 	}
 	return null;
+}
+
+// Set day options for specified day datalist
+function addDayList(div) {
+	var input = div.appendChild(document.createElement("input"));
+	input.setAttribute("class", "place-time-dayinput");
+	input.setAttribute("type", "number");
+	input.setAttribute("value", 0);
+	input.setAttribute("min", 0);
+	input.setAttribute("max", 15);
+	input.setAttribute("onkeydown", "return false");
+	input.addEventListener("change", showTotalTime);
+}
+
+// Set hour options for specified hour datalist
+function addHourList(div) {
+	var input = div.appendChild(document.createElement("input"));
+	input.setAttribute("class", "place-time-hourinput");
+	input.setAttribute("type", "number");
+	input.setAttribute("value", 6);
+	input.setAttribute("min", 0);
+	input.setAttribute("max", 23);
+	input.setAttribute("step", 0.5);
+	input.setAttribute("onkeydown", "return false");
+	input.addEventListener("change", showTotalTime);
 }
