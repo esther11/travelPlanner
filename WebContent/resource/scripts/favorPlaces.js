@@ -6,7 +6,7 @@ var directionsService;
 var directionsDisplay;
 
 // First, fetch data of user's favorite places from DB
-loadFavoritePlaces()
+loadFavoritePlaces();
 
 function initialize() {
 	// Register event listeners
@@ -289,7 +289,7 @@ function openNav() {
 
 // Close side panel of the place list
 function closeNav() {
-    document.getElementById("panel").style.marginLeft = "-310px";
+    document.getElementById("panel").style.marginLeft = "-360px";
 }
 
 // Delete place from placeList and DB, remove place card and marker, re-render routes
@@ -367,7 +367,7 @@ function addHourList(div) {
 	input.setAttribute("type", "number");
 	input.setAttribute("value", 6);
 	input.setAttribute("min", 0);
-	input.setAttribute("max", 23);
+	input.setAttribute("max", 23.5);
 	input.setAttribute("step", 0.5);
 	input.setAttribute("onkeydown", "return false");
 	input.addEventListener("change", showTotalTime);
